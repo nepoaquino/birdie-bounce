@@ -15,7 +15,8 @@ let score = 0;
 let gameOver = false;
 let isGameStarted = false;
 
-function draw() {
+
+function drawPreview() {
   // clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -24,6 +25,35 @@ function draw() {
   ctx.fillRect(birdX, birdY, 30, 30);
 
   // draw pipes
+  ctx.fillStyle = "green";
+  ctx.fillRect(pipeX, 0, pipeWidth, pipeY);
+  ctx.fillRect(pipeX, pipeY + gap, pipeWidth, pipeHeight - pipeY - gap);
+
+  // draw introduction text
+  ctx.fillStyle = "#3AF901";
+  ctx.textAlign ="center";
+  ctx.font = " bold 50px Avenir";
+  ctx.fillText("Birdie Bounce", canvas.width / 2, canvas.height / 2 - 180);
+  ctx.font = "18px Avenir";
+  ctx.fillStyle = "gray";
+  ctx.fillText("created by: Nepo Aquino", canvas.width / 2, canvas.height / 2 - 150);
+  ctx.fillStyle = "black";
+  ctx.font = "24px Arial";
+  ctx.fillText("Press Spacebar or", canvas.width / 2, canvas.height / 2 + 50);
+  ctx.fillText("Touch the screen to start", canvas.width / 2, canvas.height / 2 + 80);
+}
+// draw initial preview
+drawPreview();
+
+function draw() {
+  // clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // draw bird
+  ctx.fillStyle = "yellow";
+  ctx.fillRect(birdX, birdY, 30, 30);
+
+  // draw pipes 
   ctx.fillStyle = "green";
   ctx.fillRect(pipeX, 0, pipeWidth, pipeY);
   ctx.fillRect(pipeX, pipeY + gap, pipeWidth, pipeHeight - pipeY - gap);
@@ -61,19 +91,20 @@ function draw() {
   if (birdY + 30 > canvas.height || gameOver) {
     ctx.textAlign = "center";
     ctx.fillStyle = "red";
-    ctx.font = "bold 48px Arial";
-    ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 50);
+    ctx.font = "bold 50px Arial";
+    ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 100);
     ctx.fillStyle = "black";
     ctx.font = "24px Arial";
     ctx.fillText(`Your Score: ${score}`, canvas.width / 2, canvas.height / 2);
-    ctx.fillText("Press or Tap to play again", canvas.width / 2, canvas.height / 2 + 50);
+    ctx.fillText("Press Spacebar or", canvas.width / 2, canvas.height / 2 + 50);
+  ctx.fillText("Touch the screen to restart", canvas.width / 2, canvas.height / 2 + 80);
     return;
 }
-
-
   // request next frame
   requestAnimationFrame(draw);
 }
+
+
 
 // listen for keypress
 document.addEventListener("keydown", function (event) {
@@ -93,8 +124,6 @@ document.addEventListener("keydown", function (event) {
     birdVelocity = -10;
   }
 });
-
-
 
 
 
@@ -123,31 +152,3 @@ document.addEventListener("touchend", function (event) {
 });
 
 
-
-
-
-
-
-
-
-function drawPreview() {
-  // clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // draw bird
-  ctx.fillStyle = "yellow";
-  ctx.fillRect(birdX, birdY, 30, 30);
-
-  // draw pipes
-  ctx.fillStyle = "green";
-  ctx.fillRect(pipeX, 0, pipeWidth, pipeY);
-  ctx.fillRect(pipeX, pipeY + gap, pipeWidth, pipeHeight - pipeY - gap);
-
-  // draw score
-  ctx.fillStyle = "black";
-  ctx.font = "24px Arial";
-  ctx.textAlign ="center";
-  ctx.fillText("Press or tap the screen to start", canvas.width / 2, canvas.height / 2);
-}
-// draw initial preview
-drawPreview();
