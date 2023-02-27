@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Flappy Bird</title>
   <style>
     #canvas-container {
@@ -9,12 +9,26 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      width: 100%;
     }
 
     #canvas {
       border: 2px solid black;
       max-width: 100%;
       height: auto;
+    }
+
+    /* Adjustments for smaller screens */
+    @media only screen and (max-width: 768px) {
+      #canvas-container {
+        height: auto;
+      }
+      
+      #canvas {
+        border: 1px solid black;
+      }
+      
+      /* Adjust font sizes or margins here */
     }
   </style>
 </head>
