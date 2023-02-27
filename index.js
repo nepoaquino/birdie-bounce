@@ -73,7 +73,8 @@ function draw() {
   if (pipeX + pipeWidth < 0) {
     pipeX = canvas.width;
     pipeY = Math.random() * 200 + 100;
-    gap = Math.floor(Math.random() * 3) * 50 + 150; // set a new gap value
+    //gap = Math.floor(Math.random() * 3) * 50 + 150; // set a new gap value
+    let gap = Math.floor(Math.random() * 2) * 50 + 250;
     score++;
   }
 
