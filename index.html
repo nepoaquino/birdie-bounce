@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Flappy Bird</title>
@@ -21,21 +22,21 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 5%;
+       
 
     }
 
     #canvas {
       border: 1px solid black;
-      width: 90%;
-      height: auto;
+      height: 80vh;
+      margin-top: 5%;
 
     }
 
     /* media query for desktop / laptop */
     @media only screen and (min-width: 1024px) {
       #canvas-container {
-        height: 100vh;
+        height: 90vh;
         margin: 0
       }
 
@@ -43,14 +44,17 @@
         width: 40%;
       }
     }
-
-   
   </style>
 </head>
+
 <body>
   <div id="canvas-container">
     <canvas id="canvas" width="400" height="600"></canvas>
   </div>
-  <script src="index.js"></script>
+
+  <script src="index.js">
+
+  </script>
 </body>
+
 </html>
