@@ -9,38 +9,38 @@
     *:after {
       box-sizing: border-box;
     }
-    
+
     html,
     body {
       height: 100%;
       margin: 0;
       padding: 0;
     }
-    
+
     #canvas-container {
       display: flex;
       justify-content: center;
       align-items: center;
-       height: 100vh;
-  
+      margin-top: 5%;
+
     }
 
     #canvas {
-      border: 2px solid black;
-      width: 60%;
-      height: 90%;
-  
+      border: 1px solid black;
+      width: 90%;
+      height: auto;
+
     }
 
-    /* media query for tablets and small laptops */
-    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+    /* media query for desktop / laptop */
+    @media only screen and (min-width: 1024px) {
       #canvas-container {
         height: 100vh;
+        margin: 0
       }
 
       #canvas {
-        width: 90%;
-        height: 90%;
+        width: 40%;
       }
     }
 
