@@ -30,7 +30,6 @@ function drawPreview() {
   ctx.fillRect(pipeX, pipeY + gap, pipeWidth, pipeHeight - pipeY - gap);
 
   // draw introduction text
-  ctx.fillStyle = "#3AF901";
   ctx.textAlign ="center";
   ctx.font = " bold 50px Avenir";
   ctx.fillText("Birdie Bounce", canvas.width / 2, canvas.height / 2 - 180);
