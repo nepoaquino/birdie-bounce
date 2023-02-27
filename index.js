@@ -86,7 +86,7 @@ function draw() {
     birdY + 30 > canvas.height
   ) {
     gameOver = true;
-  }
+   }
 
   // check for game over
   if (birdY + 30 > canvas.height || gameOver) {
