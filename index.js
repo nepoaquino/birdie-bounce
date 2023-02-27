@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 let birdX = 50;
 let birdY = 200;
 let birdVelocity = 0;
-let gravity = 0.5;
+let gravity = 0.4;
 let gap = Math.floor(Math.random() * 3) * 20 + 130;
 
 let pipeX = 400;
@@ -122,7 +122,7 @@ document.addEventListener("keydown", function (event) {
     pipeY = Math.random() * 200 +100 ;
     draw();
   } else if (event.key === " ") {
-    birdVelocity = -8;
+    birdVelocity = -9;
   }
 });
 
@@ -134,7 +134,7 @@ document.addEventListener("touchstart", function (event) {
     isGameStarted = true;
     draw();
   } else if (!gameOver) {
-    birdVelocity = -8;
+    birdVelocity = -9;
   }
 });
 
