@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 let birdX = 50;
 let birdY = 200;
 let birdVelocity = 0;
-let gravity = 0.4;
+let gravity = 0.5;
 let gap = Math.floor(Math.random() * 3) * 20 + 130;
 
 let pipeX = 400;
