@@ -6,8 +6,8 @@ let birdX = 50;
 let birdY = 200;
 let birdVelocity = 0;
 let gravity = 0.5;
-//let gap = Math.floor(Math.random() * 3) * 20 + 150;
-let gap = 200;
+let gap = Math.floor(Math.random() * 3) * 20 + 130;
+
 let pipeX = 400;
 let pipeY = Math.random() * 200 +100;
 let pipeWidth = 50;
@@ -73,8 +73,8 @@ function draw() {
   if (pipeX + pipeWidth < 0) {
     pipeX = canvas.width;
     pipeY = Math.random() * 200 + 100;
-    //gap = Math.floor(Math.random() * 3) * 50 + 150; // set a new gap value
-    let gap = 200;
+    gap = Math.floor(Math.random() * 3) * 20 + 130; // set a new gap value
+
     score++;
   }
 
