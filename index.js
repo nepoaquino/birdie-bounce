@@ -122,7 +122,7 @@ document.addEventListener("keydown", function (event) {
     pipeY = Math.random() * 200 +100 ;
     draw();
   } else if (event.key === " ") {
-    birdVelocity = -10;
+    birdVelocity = -8;
   }
 });
 
@@ -134,7 +134,7 @@ document.addEventListener("touchstart", function (event) {
     isGameStarted = true;
     draw();
   } else if (!gameOver) {
-    birdVelocity = -10;
+    birdVelocity = -8;
   }
 });
 
