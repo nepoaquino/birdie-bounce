@@ -5,11 +5,10 @@ const ctx = canvas.getContext("2d");
 let birdX = 50;
 let birdY = 200;
 let birdVelocity = 0;
-let gravity = 0.5;
+let gravity = 0.45;
 let gap = Math.floor(Math.random() * 3) * 20 + 130;
-
 let pipeX = 400;
-let pipeY = Math.random() * 200 +100;
+let pipeY = Math.random() * 200 + 100;
 let pipeWidth = 50;
 let pipeHeight = 600;
 let score = 0;
@@ -74,7 +73,6 @@ function draw() {
     pipeX = canvas.width;
     pipeY = Math.random() * 200 + 100;
     gap = Math.floor(Math.random() * 3) * 20 + 130; // set a new gap value
-
     score++;
   }
 
@@ -122,7 +120,7 @@ document.addEventListener("keydown", function (event) {
     pipeY = Math.random() * 200 +100 ;
     draw();
   } else if (event.key === " ") {
-    birdVelocity = -9;
+    birdVelocity = -8;
   }
 });
 
@@ -134,7 +132,7 @@ document.addEventListener("touchstart", function (event) {
     isGameStarted = true;
     draw();
   } else if (!gameOver) {
-    birdVelocity = -9;
+    birdVelocity = -8;
   }
 });
 
