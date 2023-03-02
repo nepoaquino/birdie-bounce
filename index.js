@@ -14,8 +14,11 @@ let score = 0;
 let gameOver = false;
 let isGameStarted = false;
 
+const bird = new Image();
+bird.src = "bird.png";
+
 function getRandomGap() {
-  return Math.floor(Math.random() * 3) * 20 + 130;
+  return Math.floor(Math.random() * 4) * 20 + 120;
 }
 
 function getRandomPipeY() {
@@ -23,21 +26,11 @@ function getRandomPipeY() {
 }
 
 function drawPreview() {
-  // clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   // draw background
   ctx.fillStyle = "#d4e8de";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // draw bird
-  ctx.fillStyle = "yellow";
-  ctx.fillRect(birdX, birdY, 30, 30);
-
-  // draw pipes
   ctx.fillStyle = "green";
-  ctx.fillRect(pipeX, 0, pipeWidth, pipeY);
-  ctx.fillRect(pipeX, pipeY + gap, pipeWidth, pipeHeight - pipeY - gap);
 
   // draw introduction text
   ctx.textAlign = "center";
@@ -72,7 +65,7 @@ function draw() {
 
   // draw bird
   ctx.fillStyle = "yellow";
-  ctx.fillRect(birdX, birdY, 30, 30);
+  ctx.drawImage(bird, birdX, birdY, 30, 30);
 
   // draw pipes
   ctx.fillStyle = "green";
