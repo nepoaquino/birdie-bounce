@@ -107,7 +107,7 @@ function draw() {
 
   // draw bird
   ctx.fillStyle = "yellow";
-  ctx.drawImage(bird, birdX, birdY, 30, 30);
+  ctx.drawImage(bird, birdX, birdY, 50, 50);
 
   // draw pipes
   ctx.fillStyle = "green";
@@ -136,13 +136,13 @@ function draw() {
 
   //check for collisions
   if (
-    birdX + 25 > pipeX && // Bird hits right side of pipe
+    birdX + 40 > pipeX && // Bird hits right side of pipe
     birdX < pipeX + pipeWidth && // Bird hits left side of pipe
-    (birdY + 5 < pipeY || birdY + 25 > pipeY + gap) // Bird hits top or bottom of pipe
+    (birdY + 10 < pipeY || birdY + 40 > pipeY + gap) // Bird hits top or bottom of pipe
   ) {
     gameOver = true;
   }
-  if (birdY + 25 > canvas.height) {
+  if (birdY + 40 > canvas.height) {
     // Bird hits bottom of screen
     gameOver = true;
   }
