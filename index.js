@@ -39,7 +39,9 @@ let cloud = { x: cloudX, y: cloudY, velX: cloudVelX, width: cloudWidths[Math.flo
 cloudsArr.push(cloud);
 
 function drawBackground() {
+  // clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   // draw background
   ctx.fillStyle = "#d4e8de";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -58,16 +60,20 @@ function drawBackground() {
 
     cloud.x += cloudVelX;
 
-    if (cloud.x < -canvas.width) {
-      cloud.x = canvas.width + (Math.random() * canvas.width) / 2;
-      cloud.y = (Math.random() * canvas.height) / 2;
-      cloud.width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)]; // set a new width for the cloud
-      isCloudPassedCanvasTemp = true; // cloud has passed the canvas
+    if (cloud.x + cloud.width < 0) { // check if the cloud is outside the canvas
+      cloudsArr.splice(i, 1); // remove the cloud from the array
+      i--; // decrement the loop variable to compensate for the removed element
+      continue; // skip the rest of the loop iteration
+    }
+
+    if (cloud.x < canvas.width && cloud.x + cloud.width > canvas.width && !isCloudPassedCanvas) {
+      // if a cloud is currently passing the canvas and no other cloud has passed yet
+      isCloudPassedCanvasTemp = true; // set the temporary variable to true
     }
   }
 
   if (isCloudPassedCanvasTemp) {
-    // if at least one cloud passed the canvas
+    // if a cloud has passed the canvas
     isCloudPassedCanvas = true; // set the variable to true
   }
 
@@ -89,6 +95,7 @@ function drawBackground() {
     cloudsArr.push(cloud);
   }
 }
+
 
 
 function draw() {
