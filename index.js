@@ -17,51 +17,81 @@ let isGameStarted = false;
 const bird = new Image();
 bird.src = "bird.png";
 
+const clouds = new Image();
+clouds.src = "clouds.png";
+
 function getRandomGap() {
-  return Math.floor(Math.random() * 4) * 20 + 120;
+  return Math.floor(Math.random() * 3) * 20 + 150;
 }
 
 function getRandomPipeY() {
   return Math.round(Math.random() * 200 + 100);
 }
 
-function drawPreview() {
+let cloudsArr = [];
+let isCloudPassedCanvas = false;
+
+let cloudX = Math.random() * canvas.width;
+let cloudY = Math.random() * 200;
+let cloudVelX = -0.5;
+let cloud = { x: cloudX, y: cloudY, velX: cloudVelX };
+cloudsArr.push(cloud);
+
+function drawBackground() {
   // draw background
   ctx.fillStyle = "#d4e8de";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "green";
+  // calculate pipe speed
+  let pipeSpeed = 3.5 + score * 0.8;
 
-  // draw introduction text
-  ctx.textAlign = "center";
-  ctx.font = " bold 50px Avenir";
-  ctx.fillText("Birdie Bounce", canvas.width / 2, canvas.height / 2 - 180);
-  ctx.font = "18px Avenir";
-  ctx.fillStyle = "gray";
-  ctx.fillText(
-    "created by: Nepo Aquino",
-    canvas.width / 2,
-    canvas.height / 2 - 150
-  );
-  ctx.fillStyle = "black";
-  ctx.font = "24px Arial";
-  ctx.fillText("Press Spacebar or", canvas.width / 2, canvas.height / 2 + 50);
-  ctx.fillText(
-    "Touch the screen to start",
-    canvas.width / 2,
-    canvas.height / 2 + 80
-  );
+  // draw clouds
+  let isCloudPassedCanvasTemp = false; // temporary variable to keep track of cloud passing
+  for (let i = 0; i < cloudsArr.length; i++) {
+    let cloud = cloudsArr[i];
+    ctx.drawImage(clouds, cloud.x, cloud.y, 150, 100);
+
+    // calculate cloud velocity based on pipe speed
+    let cloudVelX = -(pipeSpeed / 20);
+
+    cloud.x += cloudVelX;
+
+    if (cloud.x < -canvas.width) {
+      cloud.x = canvas.width + (Math.random() * canvas.width) / 2;
+      cloud.y = (Math.random() * canvas.height) / 2;
+      isCloudPassedCanvasTemp = true; // cloud has passed the canvas
+    }
+  }
+
+  if (isCloudPassedCanvasTemp) {
+    // if at least one cloud passed the canvas
+    isCloudPassedCanvas = true; // set the variable to true
+  }
+
+  if (isCloudPassedCanvas) {
+    // if a cloud has passed the canvas
+    for (let i = 0; i < cloudsArr.length; i++) {
+      let cloud = cloudsArr[i];
+      ctx.drawImage(clouds, cloud.x, cloud.y, 150, 100);
+    }
+  }
+
+  // add new clouds
+  if (cloudsArr.length < 5) {
+    // add a new cloud if there are less than 5 clouds
+    let cloudX = canvas.width + (Math.random() * canvas.width) / 2;
+    let cloudY = (Math.random() * canvas.height) / 2;
+    let cloud = { x: cloudX, y: cloudY };
+    cloudsArr.push(cloud);
+  }
 }
-// draw initial preview
-drawPreview();
 
 function draw() {
   // clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // draw background
-  ctx.fillStyle = "#d4e8de";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  drawBackground();
 
   // draw bird
   ctx.fillStyle = "yellow";
@@ -83,7 +113,8 @@ function draw() {
   birdY += birdVelocity;
 
   // update pipe position
-  pipeX -= 3.5 + score * 0.02;
+  pipeX -= 3.5 + score * 0.03;
+
   if (pipeX + pipeWidth < 0) {
     pipeX = canvas.width;
     pipeY = Math.random() * 200 + 100;
@@ -124,6 +155,35 @@ function draw() {
   // request next frame
   requestAnimationFrame(draw);
 }
+
+function drawPreview() {
+  // draw background
+  ctx.fillStyle = "#d4e8de";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // draw introduction text
+  ctx.fillStyle = "green";
+  ctx.textAlign = "center";
+  ctx.font = " bold 50px Avenir";
+  ctx.fillText("Birdie Bounce", canvas.width / 2, canvas.height / 2 - 180);
+  ctx.font = "18px Avenir";
+  ctx.fillStyle = "gray";
+  ctx.fillText(
+    "created by: Nepo Aquino",
+    canvas.width / 2,
+    canvas.height / 2 - 150
+  );
+  ctx.fillStyle = "black";
+  ctx.font = "24px Arial";
+  ctx.fillText("Press Spacebar or", canvas.width / 2, canvas.height / 2 + 50);
+  ctx.fillText(
+    "Touch the screen to start",
+    canvas.width / 2,
+    canvas.height / 2 + 80
+  );
+}
+// draw initial preview
+drawPreview();
 
 // listen for keypress
 document.addEventListener("keydown", function (event) {
