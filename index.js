@@ -34,10 +34,12 @@ let isCloudPassedCanvas = false;
 let cloudX = Math.random() * canvas.width;
 let cloudY = Math.random() * 200;
 let cloudVelX = -0.5;
-let cloud = { x: cloudX, y: cloudY, velX: cloudVelX };
+let cloudWidths = [100, 150, 200, 250]; // array of different widths for each cloud
+let cloud = { x: cloudX, y: cloudY, velX: cloudVelX, width: cloudWidths[Math.floor(Math.random() * cloudWidths.length)] };
 cloudsArr.push(cloud);
 
 function drawBackground() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   // draw background
   ctx.fillStyle = "#d4e8de";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -49,7 +51,7 @@ function drawBackground() {
   let isCloudPassedCanvasTemp = false; // temporary variable to keep track of cloud passing
   for (let i = 0; i < cloudsArr.length; i++) {
     let cloud = cloudsArr[i];
-    ctx.drawImage(clouds, cloud.x, cloud.y, 150, 100);
+    ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 100); // use the width property of the cloud
 
     // calculate cloud velocity based on pipe speed
     let cloudVelX = -(pipeSpeed / 20);
@@ -59,6 +61,7 @@ function drawBackground() {
     if (cloud.x < -canvas.width) {
       cloud.x = canvas.width + (Math.random() * canvas.width) / 2;
       cloud.y = (Math.random() * canvas.height) / 2;
+      cloud.width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)]; // set a new width for the cloud
       isCloudPassedCanvasTemp = true; // cloud has passed the canvas
     }
   }
@@ -72,7 +75,7 @@ function drawBackground() {
     // if a cloud has passed the canvas
     for (let i = 0; i < cloudsArr.length; i++) {
       let cloud = cloudsArr[i];
-      ctx.drawImage(clouds, cloud.x, cloud.y, 150, 100);
+      ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 100); // use the width property of the cloud
     }
   }
 
@@ -81,10 +84,12 @@ function drawBackground() {
     // add a new cloud if there are less than 5 clouds
     let cloudX = canvas.width + (Math.random() * canvas.width) / 2;
     let cloudY = (Math.random() * canvas.height) / 2;
-    let cloud = { x: cloudX, y: cloudY };
+    let width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)];
+    let cloud = { x: cloudX, y: cloudY, width: width };
     cloudsArr.push(cloud);
   }
 }
+
 
 function draw() {
   // clear canvas
@@ -157,6 +162,7 @@ function draw() {
 }
 
 function drawPreview() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   // draw background
   ctx.fillStyle = "#d4e8de";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
