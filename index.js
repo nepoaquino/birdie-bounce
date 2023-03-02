@@ -34,7 +34,7 @@ let isCloudPassedCanvas = false;
 let cloudX = Math.random() * canvas.width;
 let cloudY = Math.random() * 200;
 let cloudVelX = -0.5;
-let cloudWidths = [100, 150, 200, 250]; // array of different widths for each cloud
+let cloudWidths = [150, 200, 250]; // array of different widths for each cloud
 let cloud = { x: cloudX, y: cloudY, velX: cloudVelX, width: cloudWidths[Math.floor(Math.random() * cloudWidths.length)] };
 cloudsArr.push(cloud);
 
