@@ -68,7 +68,7 @@ function draw() {
   birdY += birdVelocity;
 
   // update pipe position
-  pipeX -= 5;
+   pipeX -= 3.5 + score * 0.02;
   if (pipeX + pipeWidth < 0) {
     pipeX = canvas.width;
     pipeY = Math.random() * 200 + 100;
