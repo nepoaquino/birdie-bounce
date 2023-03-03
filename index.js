@@ -1,6 +1,11 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+
+// cache canvas dimensions
+const canvasWidth = canvas.width;
+const canvasHeight = canvas.height;
+
 // BIRD
 const bird = new Image();
 bird.src = "bird.png";
@@ -17,7 +22,7 @@ let pipeY = getRandomPipeY();
 let pipeWidth = 50;
 let pipeHeight = 600;
 function getRandomGap() {
-  return Math.floor(Math.random() * 4) * 20 + 150;
+  return Math.floor(Math.random() * 4) * 10 + 180;
 }
 let gap = getRandomGap();
 
@@ -25,7 +30,7 @@ let gap = getRandomGap();
 const clouds = new Image();
 clouds.src = "clouds.png";
 let cloudsArr = [];
-let cloudX = Math.random() * canvas.width;
+let cloudX = Math.random() * canvasWidth;
 let cloudY = Math.random() * 50;
 let cloudVelX = -0.5;
 const cloudWidths = [150, 200, 250]; // array of different widths for each cloud
@@ -45,23 +50,22 @@ let isGameStarted = false;
 
 function drawBackground() {
   // clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
   // draw background
   ctx.fillStyle = "#d4e8de";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
   // calculate cloud speed
   let cloudspeed = 3.5 + score * 0.05;
 
   // draw clouds
-
   for (let i = 0; i < cloudsArr.length; i++) {
     let cloud = cloudsArr[i];
     ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 80); // use the width property of the cloud
 
     // calculate cloud velocity based on pipe speed
-    let cloudVelX = -(cloudspeed / 2);
+    const cloudVelX = -(cloudspeed / 2);
     cloud.x += cloudVelX;
 
     if (cloud.x + cloud.width < 0) {
@@ -75,8 +79,8 @@ function drawBackground() {
 
 if (Math.random() < 0.007 && cloudsArr.length <= 4) {
   // add a new cloud
-  let cloudX = canvas.width + (Math.random() * canvas.width) / 2;
-  let cloudY = (Math.random() * canvas.height) / 2.5;
+  let cloudX = canvasWidth + (Math.random() * canvas.width) / 2;
+  let cloudY = (Math.random() * canvasHeight) / 2.5;
   let width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)];
   let cloud = { x: cloudX, y: cloudY, width: width };
   cloudsArr.push(cloud);
@@ -87,7 +91,7 @@ if (Math.random() < 0.007 && cloudsArr.length <= 4) {
 
 function draw() {
   // clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
   // draw background
   drawBackground();
@@ -115,7 +119,7 @@ function draw() {
   pipeX -= 3.5 + score * 0.05;
 
   if (pipeX + pipeWidth < 0) {
-    pipeX = canvas.width;
+    pipeX = canvasWidth;
     pipeY = Math.random() * 200 + 100;
     gap = getRandomGap(); // set a new gap value
     score++;
@@ -129,7 +133,7 @@ function draw() {
   ) {
     gameOver = true;
   }
-  if (birdY + 40 > canvas.height) {
+  if (birdY + 40 > canvasHeight) {
     // Bird hits bottom of screen
     gameOver = true;
   }
@@ -139,15 +143,15 @@ function draw() {
     ctx.textAlign = "center";
     ctx.fillStyle = "red";
     ctx.font = "bold 50px Arial";
-    ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 100);
+    ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2 - 100);
     ctx.fillStyle = "black";
     ctx.font = "24px Arial";
-    ctx.fillText(`Your Score: ${score}`, canvas.width / 2, canvas.height / 2);
-    ctx.fillText("Press Spacebar or", canvas.width / 2, canvas.height / 2 + 50);
+    ctx.fillText(`Your Score: ${score}`, canvasWidth / 2, canvasHeight / 2);
+    ctx.fillText("Press Spacebar or", canvasWidth / 2, canvasHeight / 2 + 50);
     ctx.fillText(
       "Touch the screen to restart",
-      canvas.width / 2,
-      canvas.height / 2 + 80
+      canvasWidth / 2,
+      canvasHeight / 2 + 80
     );
     return;
   }
@@ -156,30 +160,30 @@ function draw() {
 }
 
 function drawPreview() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   // draw background
   ctx.fillStyle = "#d4e8de";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
   // draw introduction text
   ctx.fillStyle = "green";
   ctx.textAlign = "center";
   ctx.font = " bold 50px Avenir";
-  ctx.fillText("Birdie Bounce", canvas.width / 2, canvas.height / 2 - 180);
+  ctx.fillText("Birdie Bounce", canvasWidth / 2, canvasHeight / 2 - 180);
   ctx.font = "18px Avenir";
   ctx.fillStyle = "gray";
   ctx.fillText(
     "created by: Nepo Aquino",
-    canvas.width / 2,
-    canvas.height / 2 - 150
+    canvasWidth / 2,
+    canvasHeight / 2 - 150
   );
   ctx.fillStyle = "black";
   ctx.font = "24px Arial";
-  ctx.fillText("Press Spacebar or", canvas.width / 2, canvas.height / 2 + 50);
+  ctx.fillText("Press Spacebar or", canvasWidth / 2, canvasHeight / 2 + 50);
   ctx.fillText(
     "Touch the screen to start",
-    canvas.width / 2,
-    canvas.height / 2 + 80
+    canvasWidth / 2,
+    canvasHeight / 2 + 80
   );
 }
 // Game Preview
