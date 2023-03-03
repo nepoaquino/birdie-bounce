@@ -1,7 +1,6 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-
 // cache canvas dimensions
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
@@ -11,6 +10,8 @@ const bird = new Image();
 bird.src = "bird.png";
 let birdX = 50;
 let birdY = 200;
+const birdWidth = 50;
+const birdHeight = 50;
 let birdVelocity = 0;
 
 // PIPES
@@ -49,9 +50,6 @@ let gameOver = false;
 let isGameStarted = false;
 
 function drawBackground() {
-  // clear canvas
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
   // draw background
   ctx.fillStyle = "#d4e8de";
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -76,29 +74,23 @@ function drawBackground() {
     }
   }
 
-
-if (Math.random() < 0.007 && cloudsArr.length <= 4) {
   // add a new cloud
-  let cloudX = canvasWidth + (Math.random() * canvas.width) / 2;
-  let cloudY = (Math.random() * canvasHeight) / 2.5;
-  let width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)];
-  let cloud = { x: cloudX, y: cloudY, width: width };
-  cloudsArr.push(cloud);
+  if (Math.random() < 0.007 && cloudsArr.length <= 4) {
+    let cloudX = canvasWidth + (Math.random() * canvas.width) / 2;
+    let cloudY = (Math.random() * canvasHeight) / 2.5;
+    let width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)];
+    let cloud = { x: cloudX, y: cloudY, width: width };
+    cloudsArr.push(cloud);
+  }
 }
-
-}
-
 
 function draw() {
-  // clear canvas
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
   // draw background
   drawBackground();
 
   // draw bird
   ctx.fillStyle = "yellow";
-  ctx.drawImage(bird, birdX, birdY, 50, 50);
+  ctx.drawImage(bird, birdX, birdY, birdWidth, birdHeight);
 
   // draw pipes
   ctx.fillStyle = "green";
