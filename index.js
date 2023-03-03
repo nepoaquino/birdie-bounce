@@ -23,7 +23,7 @@ let pipeY = getRandomPipeY();
 let pipeWidth = 50;
 let pipeHeight = 600;
 function getRandomGap() {
-  return Math.floor(Math.random() * 4) * 10 + 180;
+  return Math.floor(Math.random() * 3) * 10 + 160;
 }
 let gap = getRandomGap();
 
