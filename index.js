@@ -1,42 +1,48 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+// BIRD
+const bird = new Image();
+bird.src = "bird.png";
 let birdX = 50;
 let birdY = 200;
 let birdVelocity = 0;
-const gravity = 0.45;
-let gap = getRandomGap();
+
+// PIPES
 let pipeX = 400;
-let pipeY = getRandomPipeY();
-let pipeWidth = 50;
-let pipeHeight = 600;
-let score = 0;
-let gameOver = false;
-let isGameStarted = false;
-
-const bird = new Image();
-bird.src = "bird.png";
-
-const clouds = new Image();
-clouds.src = "clouds.png";
-
-function getRandomGap() {
-  return Math.floor(Math.random() * 3) * 20 + 200;
-}
-
 function getRandomPipeY() {
   return Math.round(Math.random() * 200 + 100);
 }
+let pipeY = getRandomPipeY();
+let pipeWidth = 50;
+let pipeHeight = 600;
+function getRandomGap() {
+  return Math.floor(Math.random() * 3) * 20 + 200;
+}
+let gap = getRandomGap();
 
+// CLOUDS
+const clouds = new Image();
+clouds.src = "clouds.png";
 let cloudsArr = [];
 let isCloudPassedCanvas = false;
-
 let cloudX = Math.random() * canvas.width;
-let cloudY = Math.random() * 200;
+let cloudY = Math.random() * 50;
 let cloudVelX = -0.5;
-let cloudWidths = [150, 200, 250]; // array of different widths for each cloud
-let cloud = { x: cloudX, y: cloudY, velX: cloudVelX, width: cloudWidths[Math.floor(Math.random() * cloudWidths.length)] };
+const cloudWidths = [150, 200, 250]; // array of different widths for each cloud
+let cloud = {
+  x: cloudX,
+  y: cloudY,
+  velX: cloudVelX,
+  width: cloudWidths[Math.floor(Math.random() * cloudWidths.length)],
+};
 cloudsArr.push(cloud);
+
+// GAME UTILITIES
+const gravity = 0.45;
+let score = 0;
+let gameOver = false;
+let isGameStarted = false;
 
 function drawBackground() {
   // clear canvas
@@ -46,42 +52,41 @@ function drawBackground() {
   ctx.fillStyle = "#d4e8de";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // calculate pipe speed
-  let pipeSpeed = 3.5 + score * 0.8;
+  // calculate cloud speed
+  let cloudspeed = 3.5 + score * 0.05;
 
   // draw clouds
   let isCloudPassedCanvasTemp = false; // temporary variable to keep track of cloud passing
   for (let i = 0; i < cloudsArr.length; i++) {
     let cloud = cloudsArr[i];
-    ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 100); // use the width property of the cloud
+    ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 80); // use the width property of the cloud
 
     // calculate cloud velocity based on pipe speed
-    let cloudVelX = -(pipeSpeed / 20);
-
+    let cloudVelX = -(cloudspeed / 2);
     cloud.x += cloudVelX;
 
-    if (cloud.x + cloud.width < 0) { // check if the cloud is outside the canvas
+    if (cloud.x + cloud.width < 0) {
+      // check if the cloud is outside the canvas
       cloudsArr.splice(i, 1); // remove the cloud from the array
       i--; // decrement the loop variable to compensate for the removed element
       continue; // skip the rest of the loop iteration
     }
 
-    if (cloud.x < canvas.width && cloud.x + cloud.width > canvas.width && !isCloudPassedCanvas) {
-      // if a cloud is currently passing the canvas and no other cloud has passed yet
+    if (
+      cloud.x < canvas.width &&
+      cloud.x + cloud.width > canvas.width &&
+      !isCloudPassedCanvas
+    ) {
+      // if a cloud is currently passing the canvas and no other cloud  has passed yet
       isCloudPassedCanvasTemp = true; // set the temporary variable to true
     }
-  }
-
-  if (isCloudPassedCanvasTemp) {
-    // if a cloud has passed the canvas
-    isCloudPassedCanvas = true; // set the variable to true
   }
 
   if (isCloudPassedCanvas) {
     // if a cloud has passed the canvas
     for (let i = 0; i < cloudsArr.length; i++) {
       let cloud = cloudsArr[i];
-      ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 100); // use the width property of the cloud
+      ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 80); // use the width property of the cloud
     }
   }
 
@@ -95,8 +100,6 @@ function drawBackground() {
     cloudsArr.push(cloud);
   }
 }
-
-
 
 function draw() {
   // clear canvas
@@ -195,9 +198,10 @@ function drawPreview() {
     canvas.height / 2 + 80
   );
 }
-// draw initial preview
+// Game Preview
 drawPreview();
 
+// GAME CONTROLS
 // listen for keypress
 document.addEventListener("keydown", function (event) {
   if (event.key === " " && !isGameStarted) {
