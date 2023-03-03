@@ -21,7 +21,7 @@ const clouds = new Image();
 clouds.src = "clouds.png";
 
 function getRandomGap() {
-  return Math.floor(Math.random() * 3) * 20 + 150;
+  return Math.floor(Math.random() * 3) * 20 + 200;
 }
 
 function getRandomPipeY() {
