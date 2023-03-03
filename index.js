@@ -17,7 +17,7 @@ let pipeY = getRandomPipeY();
 let pipeWidth = 50;
 let pipeHeight = 600;
 function getRandomGap() {
-  return Math.floor(Math.random() * 3) * 20 + 200;
+  return Math.floor(Math.random() * 4) * 20 + 150;
 }
 let gap = getRandomGap();
 
@@ -25,7 +25,6 @@ let gap = getRandomGap();
 const clouds = new Image();
 clouds.src = "clouds.png";
 let cloudsArr = [];
-let isCloudPassedCanvas = false;
 let cloudX = Math.random() * canvas.width;
 let cloudY = Math.random() * 50;
 let cloudVelX = -0.5;
@@ -56,7 +55,7 @@ function drawBackground() {
   let cloudspeed = 3.5 + score * 0.05;
 
   // draw clouds
-  let isCloudPassedCanvasTemp = false; // temporary variable to keep track of cloud passing
+
   for (let i = 0; i < cloudsArr.length; i++) {
     let cloud = cloudsArr[i];
     ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 80); // use the width property of the cloud
@@ -71,35 +70,20 @@ function drawBackground() {
       i--; // decrement the loop variable to compensate for the removed element
       continue; // skip the rest of the loop iteration
     }
-
-    if (
-      cloud.x < canvas.width &&
-      cloud.x + cloud.width > canvas.width &&
-      !isCloudPassedCanvas
-    ) {
-      // if a cloud is currently passing the canvas and no other cloud  has passed yet
-      isCloudPassedCanvasTemp = true; // set the temporary variable to true
-    }
   }
 
-  if (isCloudPassedCanvas) {
-    // if a cloud has passed the canvas
-    for (let i = 0; i < cloudsArr.length; i++) {
-      let cloud = cloudsArr[i];
-      ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 80); // use the width property of the cloud
-    }
-  }
 
-  // add new clouds
-  if (cloudsArr.length < 5) {
-    // add a new cloud if there are less than 5 clouds
-    let cloudX = canvas.width + (Math.random() * canvas.width) / 2;
-    let cloudY = (Math.random() * canvas.height) / 2;
-    let width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)];
-    let cloud = { x: cloudX, y: cloudY, width: width };
-    cloudsArr.push(cloud);
-  }
+if (Math.random() < 0.007 && cloudsArr.length <= 4) {
+  // add a new cloud
+  let cloudX = canvas.width + (Math.random() * canvas.width) / 2;
+  let cloudY = (Math.random() * canvas.height) / 2.5;
+  let width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)];
+  let cloud = { x: cloudX, y: cloudY, width: width };
+  cloudsArr.push(cloud);
 }
+
+}
+
 
 function draw() {
   // clear canvas
@@ -244,4 +228,3 @@ document.addEventListener("touchend", function (event) {
     draw();
   }
 });
- 
