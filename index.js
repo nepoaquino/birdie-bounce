@@ -94,10 +94,10 @@ gradient.addColorStop(1, "#f44336");
 ctx.fillStyle = gradient;
 ctx.textAlign = "left";
 ctx.font = "bold 30px Arial";
-ctx.fillText(`Score: ${score}`, 10, 50);
+ctx.fillText(`Score: ${score}`, 10, 30);
 ctx.strokeStyle = "white";
 ctx.lineWidth = 1;
-ctx.strokeText(`Score: ${score}`, 10, 50);
+ctx.strokeText(`Score: ${score}`, 10, 30);
 
 
   // Check if a pipe has moved off the screen and reset it with a new gap and score
