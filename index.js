@@ -45,15 +45,21 @@ let cloud = {
 cloudsArr.push(cloud);
 
 // GAME UTILITIES
-const gravity = 0.45;
+const gravity = 0.4;
 let score = 0;
 let gameOver = false;
 let isGameStarted = false;
 
 function drawBackground() {
+  // create gradient
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+  gradient.addColorStop(0, "#87CEEB"); // start color
+  gradient.addColorStop(1, "#FFFFFF"); // end color
+
   // draw background
-  ctx.fillStyle = "#d4e8de";
+  ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+  
 
   // calculate cloud speed
   let cloudspeed = 3.5 + score * 0.05;
@@ -167,9 +173,15 @@ function draw() {
 
 function drawPreview() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  // draw background
-  ctx.fillStyle = "#d4e8de";
-  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+  
+   // create gradient
+   const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+   gradient.addColorStop(0, "#87CEEB"); // start color
+   gradient.addColorStop(1, "#FFFFFF"); // end color
+ 
+   // draw background
+   ctx.fillStyle = gradient;
+   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
   // draw introduction text
   ctx.fillStyle = "green";
