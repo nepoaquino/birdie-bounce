@@ -16,7 +16,7 @@ let birdVelocity = 0;
 let birdAngle = 0;
 
 // PIPES
-let pipeX = 400;
+let pipeX = canvasWidth;
 function getRandomPipeY() {
   return Math.round(Math.random() * 200 + 100);
 }
@@ -50,23 +50,61 @@ let score = 0;
 let gameOver = false;
 let isGameStarted = false;
 
+function drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight) {
+  const pipeGradient = ctx.createLinearGradient(pipeX, 0, pipeX + pipeWidth, 0);
+
+  if (pipeX + 80 <= pipeWidth * 2) {
+    // if first two pipes
+    pipeGradient.addColorStop(0, "#009c00"); // dark green
+    pipeGradient.addColorStop(0.4, "#00bf00"); // medium green
+    pipeGradient.addColorStop(0.6, "#00e600"); // light green
+    pipeGradient.addColorStop(1, "#00bf00"); // medium green
+  } else {
+    // if other pipes
+    pipeGradient.addColorStop(0, "#005c00"); // dark green
+    pipeGradient.addColorStop(0.4, "#007f00"); // medium green
+    pipeGradient.addColorStop(0.6, "#00a600"); // light green
+    pipeGradient.addColorStop(1, "#007f00"); // medium green
+  }
+  ctx.fillStyle = pipeGradient;
+
+  // draw top pipe
+  ctx.fillRect(pipeX - 4.5, pipeY - 30, pipeWidth + 10, 30);
+  ctx.fillRect(pipeX, 0, pipeWidth, pipeY - 30);
+
+  // draw bottom pipe
+  const bottomPipeHeight = canvasHeight - pipeY - gap; // calculate the height of the bottom pipe based on canvas height, pipe y, and gap
+  ctx.fillRect(pipeX - 4.5, pipeY + gap, pipeWidth + 10, 30);
+  ctx.fillRect(pipeX, pipeY + gap + 30, pipeWidth, bottomPipeHeight - 30); // subtract 30 from bottomPipeHeight to account for the bottom pipe cap
+}
+
 function draw() {
+  // Clear the canvas
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  // draw background
+  
+  // Set image smoothing properties
+  ctx.imageSmoothingEnabled = true; // enable image smoothing
+  ctx.imageSmoothingQuality = "medium"; // set image smoothing quality to high
+
+  // Draw background
   drawBackground();
 
-  // update bird position
+    // Draw pipes
+    drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight);
+  
+
+  // Update bird position
   birdVelocity += gravity;
   birdY += birdVelocity;
 
-  // rotate bird based on velocity
+  // Rotate bird based on velocity
   if (birdVelocity > 0) {
     birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.05);
   } else if (birdVelocity < 0) {
     birdAngle = Math.max(-Math.PI / 4, birdVelocity * 0.05);
   }
 
-  // draw bird
+  // Draw bird
   ctx.save();
   ctx.translate(birdX + birdWidth / 2, birdY + birdHeight / 2);
   ctx.rotate(birdAngle);
@@ -74,41 +112,39 @@ function draw() {
   ctx.drawImage(bird, -birdWidth / 2, -birdHeight / 2, birdWidth, birdHeight);
   ctx.restore();
 
-  // draw pipes
-  ctx.fillStyle = "green";
-  ctx.fillRect(pipeX, 0, pipeWidth, pipeY);
-  ctx.fillRect(pipeX, pipeY + gap, pipeWidth, pipeHeight - pipeY - gap);
 
-  // draw score
+  // Update pipe position
+  pipeX -= 3.5 + score * 0.05;
+
+  // Draw score
   ctx.fillStyle = "black";
   ctx.textAlign = "left";
   ctx.font = "25px Arial";
   ctx.fillText(`Score: ${score}`, 10, 30);
 
-  // update pipe position
-  pipeX -= 3.5 + score * 0.05;
-
+  // Check if a pipe has moved off the screen and reset it with a new gap and score
   if (pipeX + pipeWidth < 0) {
     pipeX = canvasWidth;
     pipeY = Math.random() * 200 + 100;
-    gap = getRandomGap(); // set a new gap value
+    gap = getRandomGap(); // Set a new gap value
     score++;
   }
 
-  // check for collisions
+  // Check for collisions
   if (
-    birdX + 40 > pipeX && // Bird hits right side of pipe
+    birdX + birdWidth - 5 > pipeX && // Bird hits right side of pipe
     birdX < pipeX + pipeWidth && // Bird hits left side of pipe
-    (birdY + 10 < pipeY || birdY + 50 > pipeY + gap) // Bird hits top or bottom of pipe
+    (birdY + 10 < pipeY || birdY + birdHeight > pipeY + gap) // Bird hits top or bottom of pipe
   ) {
     gameOver = true;
   }
+
+  // Check if bird has hit the bottom of the screen
   if (birdY + 50 > canvasHeight) {
-    // Bird hits bottom of screen
     gameOver = true;
   }
 
-  // check for game over
+  // Check for game over
   if (gameOver) {
     ctx.textAlign = "center";
     ctx.fillStyle = "red";
@@ -126,9 +162,10 @@ function draw() {
     return;
   }
 
-  // request next frame
+  // Request the next animation frame
   requestAnimationFrame(draw);
 }
+
 
 function drawBackground() {
   // create gradient
