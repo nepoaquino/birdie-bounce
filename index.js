@@ -1,11 +1,12 @@
+// Define the canvas and its context
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-// cache canvas dimensions
+// Cache canvas dimensions
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
 
-// BIRD
+// Define the bird and its properties
 const bird = new Image();
 bird.src = "bird.png";
 let birdX = 50;
@@ -15,7 +16,7 @@ const birdHeight = 50;
 let birdVelocity = 0;
 let birdAngle = 0;
 
-// PIPES
+// Define the pipes and their properties
 let pipeX = canvasWidth;
 function getRandomPipeY() {
   return Math.round(Math.random() * 200 + 100);
@@ -24,11 +25,11 @@ let pipeY = getRandomPipeY();
 let pipeWidth = 50;
 let pipeHeight = 600;
 function getRandomGap() {
-  return Math.floor(Math.random() * 3) * 10 + 150;
+  return Math.round(Math.random() * 3) * 10 + 150;
 }
 let gap = getRandomGap();
 
-// CLOUDS
+// Define the clouds and their properties
 const clouds = new Image();
 clouds.src = "clouds.png";
 let cloudsArr = [];
@@ -44,44 +45,16 @@ let cloud = {
 };
 cloudsArr.push(cloud);
 
-// GAME UTILITIES
+// Define game variables and functions
 const gravity = 0.4;
 let score = 0;
 let gameOver = false;
 let isGameStarted = false;
 
-function drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight) {
-  const pipeGradient = ctx.createLinearGradient(pipeX, 0, pipeX + pipeWidth, 0);
-
-  if (pipeX + 80 <= pipeWidth * 2) {
-    // if first two pipes
-    pipeGradient.addColorStop(0, "#009c00"); // dark green
-    pipeGradient.addColorStop(0.4, "#00bf00"); // medium green
-    pipeGradient.addColorStop(0.6, "#00e600"); // light green
-    pipeGradient.addColorStop(1, "#00bf00"); // medium green
-  } else {
-    // if other pipes
-    pipeGradient.addColorStop(0, "#005c00"); // dark green
-    pipeGradient.addColorStop(0.4, "#007f00"); // medium green
-    pipeGradient.addColorStop(0.6, "#00a600"); // light green
-    pipeGradient.addColorStop(1, "#007f00"); // medium green
-  }
-  ctx.fillStyle = pipeGradient;
-
-  // draw top pipe
-  ctx.fillRect(pipeX - 4.5, pipeY - 30, pipeWidth + 10, 30);
-  ctx.fillRect(pipeX, 0, pipeWidth, pipeY - 30);
-
-  // draw bottom pipe
-  const bottomPipeHeight = canvasHeight - pipeY - gap; // calculate the height of the bottom pipe based on canvas height, pipe y, and gap
-  ctx.fillRect(pipeX - 4.5, pipeY + gap, pipeWidth + 10, 30);
-  ctx.fillRect(pipeX, pipeY + gap + 30, pipeWidth, bottomPipeHeight - 30); // subtract 30 from bottomPipeHeight to account for the bottom pipe cap
-}
-
 function draw() {
   // Clear the canvas
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  
+
   // Set image smoothing properties
   ctx.imageSmoothingEnabled = true; // enable image smoothing
   ctx.imageSmoothingQuality = "medium"; // set image smoothing quality to high
@@ -89,9 +62,8 @@ function draw() {
   // Draw background
   drawBackground();
 
-    // Draw pipes
-    drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight);
-  
+  // Draw pipes
+  drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight);
 
   // Update bird position
   birdVelocity += gravity;
@@ -111,7 +83,6 @@ function draw() {
   ctx.fillStyle = "yellow";
   ctx.drawImage(bird, -birdWidth / 2, -birdHeight / 2, birdWidth, birdHeight);
   ctx.restore();
-
 
   // Update pipe position
   pipeX -= 3.5 + score * 0.05;
@@ -166,15 +137,43 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
+function drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight) {
+  const pipeGradient = ctx.createLinearGradient(pipeX, 0, pipeX + pipeWidth, 0);
+
+  if (pipeX + 80 <= pipeWidth * 2) {
+    // if first two pipes
+    pipeGradient.addColorStop(0, "#009c00"); // dark green
+    pipeGradient.addColorStop(0.4, "#00bf00"); // medium green
+    pipeGradient.addColorStop(0.6, "#00e600"); // light green
+    pipeGradient.addColorStop(1, "#00bf00"); // medium green
+  } else {
+    // if other pipes
+    pipeGradient.addColorStop(0, "#005c00"); // dark green
+    pipeGradient.addColorStop(0.4, "#007f00"); // medium green
+    pipeGradient.addColorStop(0.6, "#00a600"); // light green
+    pipeGradient.addColorStop(1, "#007f00"); // medium green
+  }
+  ctx.fillStyle = pipeGradient;
+
+  // draw top pipe
+  ctx.fillRect(pipeX - 5, pipeY - 30, pipeWidth + 10, 30);
+  ctx.fillRect(pipeX, 0, pipeWidth, pipeY - 29.9);
+
+  // draw bottom pipe
+  const bottomPipeHeight = canvasHeight - pipeY - gap; // calculate the height of the bottom pipe based on canvas height, pipe y, and gap
+  ctx.fillRect(pipeX - 5, pipeY + gap, pipeWidth + 10, 30);
+  ctx.fillRect(pipeX, pipeY + gap + 30, pipeWidth, bottomPipeHeight); // subtract 30 from bottomPipeHeight to account for the bottom pipe cap
+}
 
 function drawBackground() {
-  // create gradient
-  const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
-  gradient.addColorStop(0, "#87CEEB"); // start color
-  gradient.addColorStop(1, "#FFFFFF"); // end color
+  // Define the gradient sky colors
+  const skyGradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+  skyGradient.addColorStop(0, "#005588"); // Dark blue
+  skyGradient.addColorStop(0.5, "#66ccff"); // Light blue
+  skyGradient.addColorStop(1, "#ffffff"); // White
 
-  // draw background
-  ctx.fillStyle = gradient;
+  // Draw the sky gradient background
+  ctx.fillStyle = skyGradient;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
   // calculate cloud speed
@@ -210,13 +209,13 @@ function drawBackground() {
 function drawPreview() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-  // create gradient
-  const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
-  gradient.addColorStop(0, "#87CEEB"); // start color
-  gradient.addColorStop(1, "#FFFFFF"); // end color
+  // Define the gradient sky colors
+  const skyGradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+  skyGradient.addColorStop(0.5, "#66ccff"); // Light blue
+  skyGradient.addColorStop(1, "#ffffff"); // White
 
-  // draw background
-  ctx.fillStyle = gradient;
+  // Draw the sky gradient background
+  ctx.fillStyle = skyGradient;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
   // draw introduction text
@@ -244,7 +243,6 @@ function drawPreview() {
 drawPreview();
 
 // GAME CONTROLS
-// listen for keypress
 document.addEventListener("keydown", function (event) {
   if (event.key === " " && !isGameStarted) {
     isGameStarted = true;
