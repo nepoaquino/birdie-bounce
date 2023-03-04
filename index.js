@@ -249,4 +249,4 @@ document.addEventListener("touchend", function (event) {
     pipeY = getRandomPipeY();
     draw();
   }
-});
+}); 
