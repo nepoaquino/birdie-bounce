@@ -284,3 +284,4 @@ document.addEventListener("touchend", function (event) {
     draw();
   }
 });
+ 
