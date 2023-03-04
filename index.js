@@ -13,6 +13,7 @@ let birdY = 200;
 const birdWidth = 50;
 const birdHeight = 50;
 let birdVelocity = 0;
+let birdAngle = 0;
 
 // PIPES
 let pipeX = 400;
@@ -88,9 +89,24 @@ function draw() {
   // draw background
   drawBackground();
 
+  // update bird position
+  birdVelocity += gravity;
+  birdY += birdVelocity;
+
+  // rotate bird based on velocity
+  if (birdVelocity > 0) {
+    birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.05);
+  } else if (birdVelocity < 0) {
+    birdAngle = Math.max(-Math.PI / 4, birdVelocity * 0.05);
+  }
+
   // draw bird
+  ctx.save();
+  ctx.translate(birdX + birdWidth / 2, birdY + birdHeight / 2);
+  ctx.rotate(birdAngle);
   ctx.fillStyle = "yellow";
-  ctx.drawImage(bird, birdX, birdY, birdWidth, birdHeight);
+  ctx.drawImage(bird, -birdWidth / 2, -birdHeight / 2, birdWidth, birdHeight);
+  ctx.restore();
 
   // draw pipes
   ctx.fillStyle = "green";
@@ -103,10 +119,6 @@ function draw() {
   ctx.font = "25px Arial";
   ctx.fillText(`Score: ${score}`, 10, 30);
 
-  // update bird position
-  birdVelocity += gravity;
-  birdY += birdVelocity;
-
   // update pipe position
   pipeX -= 3.5 + score * 0.05;
 
@@ -117,15 +129,15 @@ function draw() {
     score++;
   }
 
-  //check for collisions
+  // check for collisions
   if (
     birdX + 40 > pipeX && // Bird hits right side of pipe
-    birdX < pipeX + pipeWidth && // Bird hits left side of pipe
-    (birdY + 10 < pipeY || birdY + 40 > pipeY + gap) // Bird hits top or bottom of pipe
+    birdX   < pipeX + pipeWidth && // Bird hits left side of pipe
+    (birdY + 10 < pipeY || birdY + 50 > pipeY + gap) // Bird hits top or bottom of pipe
   ) {
     gameOver = true;
   }
-  if (birdY + 40 > canvasHeight) {
+  if (birdY + 50 > canvasHeight) {
     // Bird hits bottom of screen
     gameOver = true;
   }
@@ -147,9 +159,11 @@ function draw() {
     );
     return;
   }
+
   // request next frame
   requestAnimationFrame(draw);
 }
+
 
 function drawPreview() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
