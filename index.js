@@ -50,48 +50,8 @@ let score = 0;
 let gameOver = false;
 let isGameStarted = false;
 
-function drawBackground() {
-  // create gradient
-  const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
-  gradient.addColorStop(0, "#87CEEB"); // start color
-  gradient.addColorStop(1, "#FFFFFF"); // end color
-
-  // draw background
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-  
-
-  // calculate cloud speed
-  let cloudspeed = 3.5 + score * 0.05;
-
-  // draw clouds
-  for (let i = 0; i < cloudsArr.length; i++) {
-    let cloud = cloudsArr[i];
-    ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 80); // use the width property of the cloud
-
-    // calculate cloud velocity based on pipe speed
-    const cloudVelX = -(cloudspeed / 2);
-    cloud.x += cloudVelX;
-
-    if (cloud.x + cloud.width < 0) {
-      // check if the cloud is outside the canvas
-      cloudsArr.splice(i, 1); // remove the cloud from the array
-      i--; // decrement the loop variable to compensate for the removed element
-      continue; // skip the rest of the loop iteration
-    }
-  }
-
-  // add a new cloud
-  if (Math.random() < 0.007 && cloudsArr.length <= 4) {
-    let cloudX = canvasWidth + (Math.random() * canvas.width) / 2;
-    let cloudY = (Math.random() * canvasHeight) / 2.5;
-    let width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)];
-    let cloud = { x: cloudX, y: cloudY, width: width };
-    cloudsArr.push(cloud);
-  }
-}
-
 function draw() {
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   // draw background
   drawBackground();
 
@@ -138,7 +98,7 @@ function draw() {
   // check for collisions
   if (
     birdX + 40 > pipeX && // Bird hits right side of pipe
-    birdX   < pipeX + pipeWidth && // Bird hits left side of pipe
+    birdX < pipeX + pipeWidth && // Bird hits left side of pipe
     (birdY + 10 < pipeY || birdY + 50 > pipeY + gap) // Bird hits top or bottom of pipe
   ) {
     gameOver = true;
@@ -170,18 +130,57 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
+function drawBackground() {
+  // create gradient
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+  gradient.addColorStop(0, "#87CEEB"); // start color
+  gradient.addColorStop(1, "#FFFFFF"); // end color
+
+  // draw background
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+  // calculate cloud speed
+  let cloudspeed = 3.5 + score * 0.05;
+
+  // draw clouds
+  for (let i = 0; i < cloudsArr.length; i++) {
+    let cloud = cloudsArr[i];
+    ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 80); // use the width property of the cloud
+
+    // calculate cloud velocity based on pipe speed
+    const cloudVelX = -(cloudspeed / 2);
+    cloud.x += cloudVelX;
+
+    if (cloud.x + cloud.width < 0) {
+      // check if the cloud is outside the canvas
+      cloudsArr.splice(i, 1); // remove the cloud from the array
+      i--; // decrement the loop variable to compensate for the removed element
+      continue; // skip the rest of the loop iteration
+    }
+  }
+
+  // add a new cloud
+  if (Math.random() < 0.007 && cloudsArr.length <= 4) {
+    let cloudX = canvasWidth + (Math.random() * canvas.width) / 2;
+    let cloudY = (Math.random() * canvasHeight) / 2.5;
+    let width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)];
+    let cloud = { x: cloudX, y: cloudY, width: width };
+    cloudsArr.push(cloud);
+  }
+}
 
 function drawPreview() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  
-   // create gradient
-   const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
-   gradient.addColorStop(0, "#87CEEB"); // start color
-   gradient.addColorStop(1, "#FFFFFF"); // end color
- 
-   // draw background
-   ctx.fillStyle = gradient;
-   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+  // create gradient
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+  gradient.addColorStop(0, "#87CEEB"); // start color
+  gradient.addColorStop(1, "#FFFFFF"); // end color
+
+  // draw background
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
   // draw introduction text
   ctx.fillStyle = "green";
@@ -249,4 +248,4 @@ document.addEventListener("touchend", function (event) {
     pipeY = getRandomPipeY();
     draw();
   }
-}); 
+});
