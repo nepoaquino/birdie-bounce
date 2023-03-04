@@ -57,7 +57,7 @@ function draw() {
 
   // Set image smoothing properties
   ctx.imageSmoothingEnabled = true; // enable image smoothing
-  ctx.imageSmoothingQuality = "medium"; // set image smoothing quality to high
+  ctx.imageSmoothingQuality = "medium"; // set image smoothing quality to medium
 
   // Draw background
   drawBackground();
@@ -87,11 +87,18 @@ function draw() {
   // Update pipe position
   pipeX -= 3.5 + score * 0.05;
 
-  // Draw score
-  ctx.fillStyle = "black";
-  ctx.textAlign = "left";
-  ctx.font = "25px Arial";
-  ctx.fillText(`Score: ${score}`, 10, 30);
+ // Draw score
+const gradient = ctx.createLinearGradient(0, 0, canvasWidth, 0);
+gradient.addColorStop(0, "#ff5722");
+gradient.addColorStop(1, "#f44336");
+ctx.fillStyle = gradient;
+ctx.textAlign = "left";
+ctx.font = "bold 30px Arial";
+ctx.fillText(`Score: ${score}`, 10, 50);
+ctx.strokeStyle = "white";
+ctx.lineWidth = 1;
+ctx.strokeText(`Score: ${score}`, 10, 50);
+
 
   // Check if a pipe has moved off the screen and reset it with a new gap and score
   if (pipeX + pipeWidth < 0) {
@@ -122,7 +129,7 @@ function draw() {
     ctx.font = "bold 50px Arial";
     ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2 - 100);
     ctx.fillStyle = "black";
-    ctx.font = "24px Arial";
+    ctx.font = "24px Verdana, sans-serif";
     ctx.fillText(`Your Score: ${score}`, canvasWidth / 2, canvasHeight / 2);
     ctx.fillText("Press Spacebar or", canvasWidth / 2, canvasHeight / 2 + 50);
     ctx.fillText(
@@ -284,4 +291,3 @@ document.addEventListener("touchend", function (event) {
     draw();
   }
 });
- 
