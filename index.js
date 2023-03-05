@@ -1,6 +1,6 @@
 // Define the canvas and its context
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
 
 // Cache canvas dimensions
 const canvasWidth = canvas.width;
