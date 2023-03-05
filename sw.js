@@ -1,5 +1,6 @@
 const CACHE_NAME = 'my-site-cache-v1';
 const urlsToCache = [
+  '/',
   'index.js',
   'index.html',
   'thumbnail.jpg',
@@ -14,6 +15,9 @@ self.addEventListener('install', function(event) {
       .then(function(cache) {
         console.log('Opened cache');
         return cache.addAll(urlsToCache);
+      })
+      .catch(function(error) {
+        console.error('Cache open failed:', error);
       })
   );
 });
@@ -30,10 +34,10 @@ self.addEventListener('fetch', function(event) {
         // Clone the request
         const fetchRequest = event.request.clone();
 
-        return fetch(fetchRequest).then(
-          function(response) {
+        return fetch(fetchRequest)
+          .then(function(response) {
             // Check if we received a valid response
-            if(!response || response.status !== 200 || response.type !== 'basic') {
+            if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
 
@@ -43,11 +47,17 @@ self.addEventListener('fetch', function(event) {
             caches.open(CACHE_NAME)
               .then(function(cache) {
                 cache.put(event.request, responseToCache);
+              })
+              .catch(function(error) {
+                console.error('Cache put failed:', error);
               });
 
             return response;
-          }
-        );
+          })
+          .catch(function(error) {
+            console.error('Fetch failed:', error);
+            throw error;
+          });
       })
   );
 });
