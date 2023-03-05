@@ -45,8 +45,39 @@
   <div id="canvas-container">
     <canvas id="canvas" width="400" height="600"></canvas>
   </div>
-
+  
   <script src="index.js"></script>
+  <script>
+    // Initialize variables
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var lastTimestamp = 0;
+
+    // Define the game loop function
+    function gameLoop(timestamp) {
+      // Compute the time elapsed since the last frame
+      var elapsed = timestamp - lastTimestamp;
+
+      // Limit the frame rate to 60 FPS
+      if (elapsed < 16.7) {
+        requestAnimationFrame(gameLoop);
+        return;
+      }
+
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Render the game objects
+      // ...
+
+      // Swap the buffers
+      lastTimestamp = timestamp;
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Start the game loop
+    requestAnimationFrame(gameLoop);
+  </script>
 </body>
 
 </html>
