@@ -87,18 +87,17 @@ function draw() {
   // Update pipe position
   pipeX -= 3.5 + score * 0.05;
 
- // Draw score
-const gradient = ctx.createLinearGradient(0, 0, canvasWidth, 0);
-gradient.addColorStop(0, "#ff5722");
-gradient.addColorStop(1, "#f44336");
-ctx.fillStyle = gradient;
-ctx.textAlign = "left";
-ctx.font = "bold 30px Arial";
-ctx.fillText(`Score: ${score}`, 10, 30);
-ctx.strokeStyle = "white";
-ctx.lineWidth = 1;
-ctx.strokeText(`Score: ${score}`, 10, 30);
-
+  // Draw score
+  const gradient = ctx.createLinearGradient(0, 0, canvasWidth, 0);
+  gradient.addColorStop(0, "#ff5722");
+  gradient.addColorStop(1, "#f44336");
+  ctx.fillStyle = gradient;
+  ctx.textAlign = "left";
+  ctx.font = "bold 30px Arial";
+  ctx.fillText(`Score: ${score}`, 10, 30);
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 1;
+  ctx.strokeText(`Score: ${score}`, 10, 30);
 
   // Check if a pipe has moved off the screen and reset it with a new gap and score
   if (pipeX + pipeWidth < 0) {
@@ -118,7 +117,7 @@ ctx.strokeText(`Score: ${score}`, 10, 30);
   }
 
   // Check if bird has hit the bottom of the screen
-  if (birdY + 50 > canvasHeight) {
+  if (birdY - 800 > canvasHeight || birdY < -800) {
     gameOver = true;
   }
 
@@ -205,7 +204,7 @@ function drawBackground() {
 
   // add a new cloud
   if (Math.random() < 0.007 && cloudsArr.length <= 4) {
-    let cloudX = canvasWidth + (Math.random() * canvas.width) / 2;
+    let cloudX = canvasWidth + (Math.random() * canvasWidth) / 2;
     let cloudY = (Math.random() * canvasHeight) / 2.5;
     let width = cloudWidths[Math.floor(Math.random() * cloudWidths.length)];
     let cloud = { x: cloudX, y: cloudY, width: width };
