@@ -6,6 +6,7 @@ const urlsToCache = [
     "thumbnail.jpg",
     "clouds.png",
     "bird.png",
+    "birdfly.png"
 ];
 
 self.addEventListener("install", function (event) {
