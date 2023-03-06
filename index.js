@@ -8,6 +8,7 @@ const canvasHeight = canvas.height;
 
 // Define the bird and its properties
 const bird = new Image();
+
 bird.src = "bird.png";
 let birdX = 50;
 let birdY = 200;
@@ -123,9 +124,11 @@ function drawBird() {
 
   // Rotate bird based on velocity
   if (birdVelocity > 0) {
-    birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.05);
+    bird.src = "bird.png";
+    birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.06); // Going Down
   } else if (birdVelocity < 0) {
-    birdAngle = Math.max(-Math.PI / 4, birdVelocity * 0.05);
+    bird.src = "birdfly.png";
+    birdAngle = Math.max(-Math.PI, birdVelocity * 0.06); // Going Up
   }
 }
 
@@ -252,6 +255,7 @@ drawIntroduction();
 document.addEventListener("keydown", function (event) {
   if (event.key === " " && !isGameStarted) {
     isGameStarted = true;
+    
     draw();
   } else if (event.key === " " && gameOver) {
     isGameStarted = true;
