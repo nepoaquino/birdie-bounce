@@ -288,6 +288,8 @@ document.addEventListener("touchstart", function (event) {
     isGameStarted = true;
     draw();
   } else if (!gameOver) {
+    wingsFlap.play();
+    wingsFlap.currentTime = 0; // reset audio to beginning
     birdVelocity = -8;
   }
 });
