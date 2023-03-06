@@ -1,3 +1,4 @@
+/*
 const CACHE_NAME = "my-site-cache-v1";
 const urlsToCache = [
     "sw.js",
@@ -6,7 +7,8 @@ const urlsToCache = [
     "thumbnail.jpg",
     "clouds.png",
     "bird.png",
-    "birdfly.png"
+    "birdfly.png",
+    "wingsFlap.wav"
 ];
 
 self.addEventListener("install", function (event) {
@@ -51,3 +53,5 @@ self.addEventListener("fetch", function (event) {
         })
     );
 });
+
+*/
