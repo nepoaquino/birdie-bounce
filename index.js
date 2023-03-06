@@ -8,8 +8,9 @@ const canvasHeight = canvas.height;
 
 // Define the bird and its properties
 const bird = new Image();
-
 bird.src = "bird.png";
+const wingsFlap = new Audio("wingsFlap.wav");
+wingsFlap.volume = 0.7;
 let birdX = 50;
 let birdY = 200;
 const birdWidth = 50;
@@ -51,6 +52,30 @@ const gravity = 0.4;
 let score = 0;
 let gameOver = false;
 let isGameStarted = false;
+let spacebarPressed = false;
+
+// Draw bird
+function drawBird() {
+  // Update bird position
+  ctx.save();
+  ctx.translate(birdX + birdWidth / 2, birdY + birdHeight / 2);
+  ctx.rotate(birdAngle);
+  ctx.fillStyle = "yellow";
+  ctx.drawImage(bird, -birdWidth / 2, -birdHeight / 2, birdWidth, birdHeight);
+  ctx.restore();
+
+  birdVelocity += gravity;
+  birdY += birdVelocity;
+
+  // Rotate bird based on velocity
+  if (birdVelocity > 0) {
+    bird.src = "bird.png";
+    birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.06); // Going Down
+  } else if (birdVelocity < 0) {
+    bird.src = "birdfly.png";
+    birdAngle = Math.max(-Math.PI, birdVelocity * 0.06); // Going Up
+  }
+}
 
 function draw() {
   // Clear the canvas
@@ -107,29 +132,6 @@ function draw() {
 
   // Request the next animation frame
   requestAnimationFrame(draw);
-}
-
-// Draw bird
-function drawBird() {
-  // Update bird position
-  ctx.save();
-  ctx.translate(birdX + birdWidth / 2, birdY + birdHeight / 2);
-  ctx.rotate(birdAngle);
-  ctx.fillStyle = "yellow";
-  ctx.drawImage(bird, -birdWidth / 2, -birdHeight / 2, birdWidth, birdHeight);
-  ctx.restore();
-
-  birdVelocity += gravity;
-  birdY += birdVelocity;
-
-  // Rotate bird based on velocity
-  if (birdVelocity > 0) {
-    bird.src = "bird.png";
-    birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.06); // Going Down
-  } else if (birdVelocity < 0) {
-    bird.src = "birdfly.png";
-    birdAngle = Math.max(-Math.PI, birdVelocity * 0.06); // Going Up
-  }
 }
 
 function drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight) {
@@ -255,7 +257,6 @@ drawIntroduction();
 document.addEventListener("keydown", function (event) {
   if (event.key === " " && !isGameStarted) {
     isGameStarted = true;
-    
     draw();
   } else if (event.key === " " && gameOver) {
     isGameStarted = true;
@@ -266,8 +267,18 @@ document.addEventListener("keydown", function (event) {
     pipeX = 400;
     pipeY = getRandomPipeY();
     draw();
-  } else if (event.key === " ") {
+  } else if (event.key === " " && !spacebarPressed) {
+    spacebarPressed = true;
+    wingsFlap.play();
+    wingsFlap.currentTime = 0; // reset audio to beginning
     birdVelocity = -8;
+  }
+});
+
+
+document.addEventListener("keyup", function (event) {
+  if (event.key === " ") {
+    spacebarPressed = false;
   }
 });
 
