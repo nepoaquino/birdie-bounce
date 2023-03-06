@@ -54,51 +54,16 @@ let isGameStarted = false;
 function draw() {
   // Clear the canvas
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-
   // Set image smoothing properties
   ctx.imageSmoothingEnabled = true; // enable image smoothing
-  ctx.imageSmoothingQuality = "medium"; // set image smoothing quality to medium
-
-  // Draw background
+  ctx.imageSmoothingQuality = "high"; // set image smoothing quality to high
   drawBackground();
-
-  // Draw pipes
   drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight);
-
-  // Update bird position
-  birdVelocity += gravity;
-  birdY += birdVelocity;
-
-  // Rotate bird based on velocity
-  if (birdVelocity > 0) {
-    birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.05);
-  } else if (birdVelocity < 0) {
-    birdAngle = Math.max(-Math.PI / 4, birdVelocity * 0.05);
-  }
-
-  // Draw bird
-  ctx.save();
-  ctx.translate(birdX + birdWidth / 2, birdY + birdHeight / 2);
-  ctx.rotate(birdAngle);
-  ctx.fillStyle = "yellow";
-  ctx.drawImage(bird, -birdWidth / 2, -birdHeight / 2, birdWidth, birdHeight);
-  ctx.restore();
+  drawBird();
+  drawScore();
 
   // Update pipe position
   pipeX -= 3.5 + score * 0.05;
-
-  // Draw score
-  const gradient = ctx.createLinearGradient(0, 0, canvasWidth, 0);
-  gradient.addColorStop(0, "#ff5722");
-  gradient.addColorStop(1, "#f44336");
-  ctx.fillStyle = gradient;
-  ctx.textAlign = "left";
-  ctx.font = "bold 30px Arial";
-  ctx.fillText(`Score: ${score}`, 10, 30);
-  ctx.strokeStyle = "white";
-  ctx.lineWidth = 1;
-  ctx.strokeText(`Score: ${score}`, 10, 30);
-
   // Check if a pipe has moved off the screen and reset it with a new gap and score
   if (pipeX + pipeWidth < 0) {
     pipeX = canvasWidth;
@@ -141,6 +106,27 @@ function draw() {
 
   // Request the next animation frame
   requestAnimationFrame(draw);
+}
+
+// Draw bird
+function drawBird() {
+  // Update bird position
+  ctx.save();
+  ctx.translate(birdX + birdWidth / 2, birdY + birdHeight / 2);
+  ctx.rotate(birdAngle);
+  ctx.fillStyle = "yellow";
+  ctx.drawImage(bird, -birdWidth / 2, -birdHeight / 2, birdWidth, birdHeight);
+  ctx.restore();
+
+  birdVelocity += gravity;
+  birdY += birdVelocity;
+
+  // Rotate bird based on velocity
+  if (birdVelocity > 0) {
+    birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.05);
+  } else if (birdVelocity < 0) {
+    birdAngle = Math.max(-Math.PI / 4, birdVelocity * 0.05);
+  }
 }
 
 function drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight) {
@@ -212,7 +198,21 @@ function drawBackground() {
   }
 }
 
-function drawPreview() {
+// Draw score
+function drawScore() {
+  const gradient = ctx.createLinearGradient(0, 0, canvasWidth, 0);
+  gradient.addColorStop(0, "#ff5722");
+  gradient.addColorStop(1, "#f44336");
+  ctx.fillStyle = gradient;
+  ctx.textAlign = "left";
+  ctx.font = "bold 30px Arial";
+  ctx.fillText(`Score: ${score}`, 10, 30);
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 1;
+  ctx.strokeText(`Score: ${score}`, 10, 30);
+}
+
+function drawIntroduction() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
   // Define the gradient sky colors
@@ -246,7 +246,7 @@ function drawPreview() {
   );
 }
 // Game Preview
-drawPreview();
+drawIntroduction();
 
 // GAME CONTROLS
 document.addEventListener("keydown", function (event) {
