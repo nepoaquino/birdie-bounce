@@ -1,59 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-    />
-    <meta name="author" content="Nepo Aquino" />
-    <meta property="og:title" content="Birdie Bounce" />
-    <meta
-      property="og:image"
-      content="thumbnail.jpg"
-      content-type="image/jpeg"
-    />
-    <title>Bounce</title>
-    <link rel="icon" href="birdieIcon.png" type="image/png">
-    <style>
-      *,
-      *:before,
-      *:after {
-        box-sizing: border-box;
-      }
 
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        touch-action: manipulation;
-      }
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <meta name="author" content="Nepo Aquino" />
+  <meta property="og:title" content="Birdie Bounce" />
+  <meta property="og:image" content="thumbnail.jpg" content-type="image/jpeg" />
+  <title>Bounce</title>
 
-      #canvas-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+  <link rel="icon" href="birdieIcon.png" type="image/png">
 
-      #canvas {
-        height: 99.5%;
-        width: auto;
-        max-width: 99.5%;
-        border: 1px solid black;
-        padding: 0;
-        margin: 0;
-      }
-    </style>
-  </head>
+  <style>
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
 
-  <body>
-    <div id="canvas-container">
-      <canvas id="canvas" width="400" height="600"></canvas>
-    </div>
-    
-    <!--  
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      touch-action: manipulation;
+    }
+
+    #canvas-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #canvas {
+      height: 99.5%;
+      width: auto;
+      max-width: 99.5%;
+      border: 1px solid black;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="canvas-container">
+    <audio id="wingsFlap" src="wingsFlap.wav"></audio>
+    <canvas id="canvas" width="400" height="600"></canvas>
+  </div>
+
+  <!--  
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
@@ -62,35 +59,36 @@
       }
     </script>
 -->
-    <script src="index.js"></script>
+  <script src="index.js"></script>
 
-    <script>
-      // Initialize variables
-      canvas = document.getElementById("canvas");
-      ctx = canvas.getContext("2d");
-      let lastTimestamp = 0;
+  <script>
+    // Initialize variables
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    let lastTimestamp = 0;
 
-      // Define the game loop function
-      function gameLoop(timestamp) {
-        // Compute the time elapsed since the last frame
-        var elapsed = timestamp - lastTimestamp;
+    // Define the game loop function
+    function gameLoop(timestamp) {
+      // Compute the time elapsed since the last frame
+      var elapsed = timestamp - lastTimestamp;
 
-        // Limit the frame rate to 60 FPS
-        if (elapsed < 16.7) {
-          requestAnimationFrame(gameLoop);
-          return;
-        }
-
-        // Render the game objects
-        // ...
-
-        // Swap the buffers
-        lastTimestamp = timestamp;
+      // Limit the frame rate to 60 FPS
+      if (elapsed < 16.7) {
         requestAnimationFrame(gameLoop);
+        return;
       }
 
-      // Start the game loop
+      // Render the game objects
+      // ...
+
+      // Swap the buffers
+      lastTimestamp = timestamp;
       requestAnimationFrame(gameLoop);
-    </script>
-  </body>
+    }
+
+    // Start the game loop
+    requestAnimationFrame(gameLoop);
+  </script>
+</body>
+
 </html>
