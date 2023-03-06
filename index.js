@@ -9,8 +9,7 @@ const canvasHeight = canvas.height;
 // Define the bird and its properties
 const bird = new Image();
 bird.src = "bird.png";
-const wingsFlap = new Audio("wingsFlap.wav");
-wingsFlap.volume = 1;
+
 let birdX = 50;
 let birdY = 200;
 const birdWidth = 50;
@@ -53,6 +52,14 @@ let score = 0;
 let gameOver = false;
 let isGameStarted = false;
 let spacebarPressed = false;
+
+//Sound effects
+const wingsFlap = new Audio("wingsFlap.wav");
+wingsFlap.volume = 0.7;
+const bump = new Audio("bump.wav");
+bump.volume = 1;
+const fall = new Audio("fall.wav");
+fall.volume = 0.4;
 
 // Draw bird
 function drawBird() {
@@ -104,11 +111,13 @@ function draw() {
     birdX < pipeX + pipeWidth && // Bird hits left side of pipe
     (birdY + 10 < pipeY || birdY + birdHeight > pipeY + gap) // Bird hits top or bottom of pipe
   ) {
+    bump.play();
     gameOver = true;
   }
 
   // Check if bird has hit the bottom of the screen
   if (birdY - 800 > canvasHeight || birdY < -800) {
+    fall.play();
     gameOver = true;
   }
 
@@ -274,7 +283,6 @@ document.addEventListener("keydown", function (event) {
     birdVelocity = -8;
   }
 });
-
 
 document.addEventListener("keyup", function (event) {
   if (event.key === " ") {
