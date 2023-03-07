@@ -8,7 +8,7 @@ const canvasHeight = canvas.height;
 
 // Define the bird and its properties
 const bird = new Image();
-bird.src = "bird.png";
+bird.src = "sprite/bird.png";
 
 let birdX = 50;
 let birdY = 200;
@@ -32,7 +32,7 @@ let gap = getRandomGap();
 
 // Define the clouds and their properties
 const clouds = new Image();
-clouds.src = "clouds.png";
+clouds.src = "sprite/clouds.png";
 let cloudsArr = [];
 let cloudX = Math.random() * canvasWidth;
 let cloudY = Math.random() * 50;
@@ -54,11 +54,11 @@ let isGameStarted = false;
 let spacebarPressed = false;
 
 //Sound effects
-const wingsFlap = new Audio("wingsFlap.wav");
+const wingsFlap = new Audio("soundeffects/wingsFlap.wav");
 wingsFlap.volume = 0.7;
-const bump = new Audio("bump.wav");
+const bump = new Audio("soundeffects/bump.wav");
 bump.volume = 1;
-const fall = new Audio("fall.wav");
+const fall = new Audio("soundeffects/fall.wav");
 fall.volume = 0.4;
 
 // Draw bird
@@ -76,10 +76,10 @@ function drawBird() {
 
   // Rotate bird based on velocity
   if (birdVelocity > 0) {
-    bird.src = "bird.png";
+    bird.src = "sprite/bird.png";
     birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.06); // Going Down
   } else if (birdVelocity < 0) {
-    bird.src = "birdfly.png";
+    bird.src = "sprite/birdfly.png";
     birdAngle = Math.max(-Math.PI, birdVelocity * 0.06); // Going Up
   }
 }
@@ -109,13 +109,13 @@ function draw() {
   if (
     birdX + birdWidth - 5 > pipeX && // Bird hits right side of pipe
     birdX < pipeX + pipeWidth && // Bird hits left side of pipe
-    (birdY + 10 < pipeY || birdY + birdHeight > pipeY + gap) // Bird hits top or bottom of pipe
+    (birdY + 10 < pipeY || birdY + birdHeight - 10 > pipeY + gap) // Bird hits top or bottom of pipe
   ) {
-    bump.play();
+    bump.play();   
     gameOver = true;
-  }
+  } 
 
-  // Check if bird has hit the bottom of the screen
+  // Check if bird has hit the bottom of the screen  
   if (birdY - 800 > canvasHeight || birdY < -800) {
     fall.play();
     gameOver = true;
