@@ -52,12 +52,15 @@ self.addEventListener("fetch", function (event) {
           });
           return networkResponse;
         }).catch(function () {
-          return caches.match("offline.html");
+          return caches.match(event.request).then(function (response) {
+            return response || caches.match("offline.html");
+          });
         });
       })
     );
   }
 });
+
 
 // When the service worker is activated, delete any old caches that have a different name than the current cache
 self.addEventListener("activate", function (event) {
