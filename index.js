@@ -330,3 +330,4 @@ window.onload = function () {
   // Initialize the game controls
   handleControls();
 };
+ 
