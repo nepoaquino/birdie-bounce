@@ -19,7 +19,7 @@ self.addEventListener("install", function (event) {
 
 self.addEventListener("fetch", async function (event) {
   const cache = await caches.open(CACHE_NAME);
-  const cacheValidity = 10 * 60 * 1000; // 30 minutes in milliseconds
+  const cacheValidity = 10 * 60 * 1000; // 10 minutes in milliseconds
   const cacheExpiration = Date.now() - cacheValidity;
 
   try {
@@ -38,6 +38,12 @@ self.addEventListener("fetch", async function (event) {
       return cachedResponse;
     }
 
+    // If the requested resource is not in the cache and the network is not available, return a custom offline page
+    if (event.request.mode === "navigate") {
+      return cache.match("offline.html");
+    }
+
     throw error;
   }
 });
+
