@@ -1,59 +1,60 @@
-const CACHE_NAME = "my-site-cache-v2";
+// Define the cache name
+var cacheName = 'my-page-cache-v1';
 
-self.addEventListener("install", function (event) {
+// Define the files to be cached
+var filesToCache = [
+  '/',
+  'soundeffects/bump.wav',
+  'soundeffects/fall.wav',
+  'soundeffects/wingsFlap.wav',
+  'sprite/bird.png',
+  'sprite/birdfly.png',
+  'index.html',
+  'index.js',
+];
+
+// Install the service worker and cache the files
+self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.addAll([
-        'soundeffects/bump.wav',
-        'soundeffects/fall.wav',
-        'soundeffects/wingsFlap.wav',
-        'sprite/bird.png',
-        'sprite/birdfly.png',
-        'index.html',
-        'index.js',
-        'sw.js'
-      ]);
+    caches.open(cacheName).then(function(cache) {
+      return cache.addAll(filesToCache);
     })
   );
 });
 
-self.addEventListener("activate", function (event) {
+// Activate the service worker and remove old caches
+self.addEventListener('activate', function(event) {
   event.waitUntil(
-    caches.keys().then(function (cacheNames) {
+    caches.keys().then(function(cacheNames) {
       return Promise.all(
-        cacheNames.filter(function (cacheName) {
-          return cacheName.startsWith("my-site-cache-") && cacheName !== CACHE_NAME;
-        }).map(function (cacheName) {
-          return caches.delete(cacheName);
+        cacheNames.filter(function(name) {
+          return name !== cacheName;
+        }).map(function(name) {
+          return caches.delete(name);
         })
       );
-    }).then(function () {
-      return self.clients.claim();
     })
   );
 });
 
-self.addEventListener("fetch", async function (event) {
-  const cache = await caches.open(CACHE_NAME);
-  const cacheValidity = 10 * 60 * 1000; // 10 minutes in milliseconds
-  const cacheExpiration = Date.now() - cacheValidity;
+// Intercept network requests and return cached files when offline
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(response) {
+      if (response) {
+        return response;
+      } else {
+        return fetch(event.request);
+      }
+    })
+  );
+});
 
-  try {
-    const networkResponse = await fetch(event.request);
-
-    if (networkResponse.status === 200 && networkResponse.type === "basic") {
-      const clonedResponse = networkResponse.clone();
-      cache.put(event.request, clonedResponse);
-    }
-
-    return networkResponse;
-  } catch (error) {
-    const cachedResponse = await cache.match(event.request);
-
-    if (cachedResponse && cachedResponse.timestamp > cacheExpiration) {
-      return cachedResponse;
-    }
-
-    throw error;
+// Refresh the cache when the user presses the refresh button
+self.addEventListener('message', function(event) {
+  if (event.data.action === 'refresh') {
+    caches.open(cacheName).then(function(cache) {
+      cache.addAll(filesToCache);
+    });
   }
 });
