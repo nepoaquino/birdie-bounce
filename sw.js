@@ -17,6 +17,22 @@ self.addEventListener("install", function (event) {
   );
 });
 
+self.addEventListener("activate", function (event) {
+  event.waitUntil(
+    caches.keys().then(function (cacheNames) {
+      return Promise.all(
+        cacheNames.filter(function (cacheName) {
+          return cacheName.startsWith("my-site-cache-") && cacheName !== CACHE_NAME;
+        }).map(function (cacheName) {
+          return caches.delete(cacheName);
+        })
+      );
+    }).then(function () {
+      return self.clients.claim();
+    })
+  );
+});
+
 self.addEventListener("fetch", async function (event) {
   const cache = await caches.open(CACHE_NAME);
   const cacheValidity = 10 * 60 * 1000; // 10 minutes in milliseconds
@@ -38,12 +54,6 @@ self.addEventListener("fetch", async function (event) {
       return cachedResponse;
     }
 
-    // If the requested resource is not in the cache and the network is not available, return a custom offline page
-    if (event.request.mode === "navigate") {
-      return cache.match("offline.html");
-    }
-
     throw error;
   }
 });
-
