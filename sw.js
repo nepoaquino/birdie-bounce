@@ -1,57 +1,36 @@
-/*
-const CACHE_NAME = "my-site-cache-v1";
-const urlsToCache = [
-    "sw.js",
-    "index.js",
-    "index.html",
-    "thumbnail.jpg",
-    "clouds.png",
-    "bird.png",
-    "birdfly.png",
-    "wingsFlap.wav"
-];
+const CACHE_NAME = "my-site-cache-v2";
 
 self.addEventListener("install", function (event) {
-    // Perform installation steps
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(function (cache) {
-            console.log("Opened cache");
-            return cache.addAll(urlsToCache);
-        })
-    );
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(function (cache) {
+      return cache.addAll([
+        // Cache important resources here
+      ]);
+    })
+  );
 });
 
-self.addEventListener("fetch", function (event) {
-    event.respondWith(
-        caches.match(event.request).then(function (response) {
-            if (response) {
-                // Return the cached response
-                return response;
-            }
-            // Not found in cache - fetch from network
-            return fetch(event.request)
-                .then(function (response) {
-                    // Check if response is valid
-                    if (
-                        !response ||
-                        response.status !== 200 ||
-                        response.type !== "basic"
-                    ) {
-                        return response;
-                    }
-                    // Clone the response to cache
-                    const responseToCache = response.clone();
-                    caches.open(CACHE_NAME).then(function (cache) {
-                        cache.put(event.request, responseToCache);
-                    });
-                    return response;
-                })
-                .catch(function (err) {
-                    // Network request failed, return a fallback response
-                    return caches.match("/offline.html");
-                });
-        })
-    );
-});
+self.addEventListener("fetch", async function (event) {
+  const cache = await caches.open(CACHE_NAME);
+  const cacheValidity = 10 * 60 * 1000; // 30 minutes in milliseconds
+  const cacheExpiration = Date.now() - cacheValidity;
 
-*/
+  try {
+    const networkResponse = await fetch(event.request);
+
+    if (networkResponse.status === 200 && networkResponse.type === "basic") {
+      const clonedResponse = networkResponse.clone();
+      cache.put(event.request, clonedResponse);
+    }
+
+    return networkResponse;
+  } catch (error) {
+    const cachedResponse = await cache.match(event.request);
+
+    if (cachedResponse && cachedResponse.timestamp > cacheExpiration) {
+      return cachedResponse;
+    }
+
+    throw error;
+  }
+});
