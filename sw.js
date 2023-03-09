@@ -18,11 +18,7 @@ const urlsToCache = [
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
-      try {
-        return cache.addAll(urlsToCache);
-      } catch (error) {
-        console.error("Failed to add URLs to cache:", error);
-      }
+      return cache.addAll(urlsToCache);
     })
   );
 });
@@ -31,17 +27,33 @@ self.addEventListener("install", function (event) {
 // If it doesn't exist, fetch the resource from the network
 // If the network request fails, serve the offline.html fallback page
 self.addEventListener("fetch", function (event) {
-  event.respondWith(
-    caches.match(event.request).then(function (response) {
-      if (response) {
-        return response;
-      } else {
-        return fetch(event.request).catch(function () {
-          return caches.match("offline.html");
+  if (event.request.method === "GET" && event.request.mode === "navigate") {
+    event.respondWith(
+      caches.match("index.html").then(function (response) {
+        return fetch(event.request).then(function (networkResponse) {
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(event.request, networkResponse.clone());
+          });
+          return networkResponse;
+        }).catch(function () {
+          return response || caches.match("offline.html");
         });
-      }
-    })
-  );
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(function (response) {
+        return fetch(event.request).then(function (networkResponse) {
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(event.request, networkResponse.clone());
+          });
+          return networkResponse;
+        }).catch(function () {
+          return response || caches.match("offline.html");
+        });
+      })
+    );
+  }
 });
 
 // When the service worker is activated, delete any old caches that have a different name than the current cache
