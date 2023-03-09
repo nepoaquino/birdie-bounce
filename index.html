@@ -13,7 +13,6 @@
     content="https://lh3.googleusercontent.com/pw/AMWts8AzC4eTzvtC7SLRIVVIb2pUamcNCsDK166G5ZU-o8tzo4AOvh2eRv-ewNsd5JVSsFUi7YKBTEWlIEPcy1cAvZi1jDdxcMpTJXtqTTO_Mv2ioOrdP73H_Tc4VtaiFN1kJ260oEHGyuvh8nBpxSkElAlp=w1200-h627-no?authuser=0" />
   <meta property="og:image:type" content="image/png" />
 
-  <meta property="og:image" content="thumbnail.jpg" content-type="image/jpeg" />
   <title>Bounce</title>
 
   <link rel="icon" href="" type="" />
@@ -51,7 +50,18 @@
     }
   </style>
 
-  <script></script>
+  <script>
+   if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js').then(function(registration) {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, function(err) {
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
+}
+
+  </script>
 </head>
 
 <body>
@@ -61,20 +71,7 @@
     <audio id="fall" src="soundeffects/fall.wav"></audio>
     <canvas id="canvas" width="400" height="600"></canvas>
   </div>
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("service-worker.js").then(
-          function (registration) {
-            console.log("Service worker registered:", registration);
-          },
-          function (error) {
-            console.log("Service worker registration failed:", error);
-          }
-        );
-      });
-    }
-  </script>
+
   <script src="index.js"></script>
 
   <script>
