@@ -24,7 +24,7 @@ self.addEventListener("install", function (event) {
 });
 
 // When a fetch event occurs, respond with the cached version of the resource if it exists
-// If it doesn't exist, fetch the resource from the network
+// If it doesn't exist, fetch the resource from the network and add it to the cache
 // If the network request fails, serve the offline.html fallback page
 self.addEventListener("fetch", function (event) {
   if (event.request.method === "GET" && event.request.mode === "navigate") {
@@ -43,13 +43,16 @@ self.addEventListener("fetch", function (event) {
   } else {
     event.respondWith(
       caches.match(event.request).then(function (response) {
+        if (response) {
+          return response;
+        }
         return fetch(event.request).then(function (networkResponse) {
           caches.open(CACHE_NAME).then(function (cache) {
             cache.put(event.request, networkResponse.clone());
           });
           return networkResponse;
         }).catch(function () {
-          return response || caches.match("offline.html");
+          return caches.match("offline.html");
         });
       })
     );
