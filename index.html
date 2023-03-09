@@ -38,6 +38,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      background: radial-gradient(circle, #111, #222);
     }
 
     #canvas {
@@ -48,27 +49,58 @@
       padding: 0;
       margin: 0;
     }
+
+    #startButton {
+      position: absolute;
+      top: 60%;
+      font-weight: 600;
+      font-size: 6vh;
+      height: 9vh;
+      min-width: 40vh;
+      white-space: nowrap;
+      border-radius: 30vh;
+      border: none;
+      background-image: linear-gradient(to bottom right,
+          #00b300,
+          #3e8e41,
+          #3e8e41);
+      color: white;
+      text-shadow: 1px 1px 1px #888;
+    }
+
+    #startButton:hover {
+      background-color: yellow;
+      box-shadow: 0px 0px 5px #888;
+      cursor: pointer;
+    }
   </style>
 
   <script>
-   if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js').then(function(registration) {
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    }, function(err) {
-      console.log('ServiceWorker registration failed: ', err);
-    });
-  });
-}
-
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").then(
+          function (registration) {
+            console.log(
+              "ServiceWorker registration successful with scope: ",
+              registration.scope
+            );
+          },
+          function (err) {
+            console.log("ServiceWorker registration failed: ", err);
+          }
+        );
+      });
+    }
   </script>
 </head>
 
 <body>
+  <audio id="wingsFlap" src="soundeffects/wingsFlap.wav"></audio>
+  <audio id="bump" src="soundeffects/bump.wav"></audio>
+  <audio id="fall" src="soundeffects/fall.wav"></audio>
+
   <div id="canvas-container">
-    <audio id="wingsFlap" src="soundeffects/wingsFlap.wav"></audio>
-    <audio id="bump" src="soundeffects/bump.wav"></audio>
-    <audio id="fall" src="soundeffects/fall.wav"></audio>
+    <button id="startButton">Start Game</button>
     <canvas id="canvas" width="400" height="600"></canvas>
   </div>
 
