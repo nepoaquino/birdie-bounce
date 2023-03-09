@@ -4,15 +4,14 @@ self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
       return cache.addAll([
-        '/',
-        '/soundeffects/bump.wav',
-        '/soundeffects/fall.wav',
-        '/soundeffects/wingsFlap.wav',
-        '/sprite/bird.png',
-        '/sprite/birdfly.png',
-        '/index.html',
-        '/index.js',
-        '/sw.js',
+        'soundeffects/bump.wav',
+        'soundeffects/fall.wav',
+        'soundeffects/wingsFlap.wav',
+        'sprite/bird.png',
+        'sprite/birdfly.png',
+        'index.html',
+        'index.js',
+        'sw.js'
       ]);
     })
   );
