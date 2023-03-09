@@ -23,18 +23,19 @@ self.addEventListener("install", function (event) {
       return Promise.all(
         urlsToCache.map(function (url) {
           // Fetch the resource and add it to the cache
-          return fetch(url).then(function (response) {
-            return cache.put(url, response);
-          }).catch(function () {
-            // If the fetch fails, log an error message
-            console.error("Failed to cache " + url);
-          });
+          return fetch(url)
+            .then(function (response) {
+              return cache.put(url, response.clone()); // clone the response before adding it to the cache
+            })
+            .catch(function () {
+              // If the fetch fails, log an error message
+              console.error("Failed to cache " + url);
+            });
         })
       );
     })
   );
 });
-
 
 // When a fetch event occurs, respond with the cached version of the resource if it exists
 // If it doesn't exist, fetch the resource from the network and add it to the cache
@@ -43,14 +44,16 @@ self.addEventListener("fetch", function (event) {
   if (event.request.method === "GET" && event.request.mode === "navigate") {
     event.respondWith(
       caches.match("index.html").then(function (response) {
-        return fetch(event.request).then(function (networkResponse) {
-          caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(event.request, networkResponse.clone());
+        return fetch(event.request)
+          .then(function (networkResponse) {
+            caches.open(CACHE_NAME).then(function (cache) {
+              cache.put(event.request, networkResponse.clone()); // clone the response before adding it to the cache
+            });
+            return networkResponse;
+          })
+          .catch(function () {
+            return response || caches.match("offline.html");
           });
-          return networkResponse;
-        }).catch(function () {
-          return response || caches.match("offline.html");
-        });
       })
     );
   } else {
@@ -59,21 +62,22 @@ self.addEventListener("fetch", function (event) {
         if (response) {
           return response;
         }
-        return fetch(event.request).then(function (networkResponse) {
-          caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(event.request, networkResponse.clone());
+        return fetch(event.request)
+          .then(function (networkResponse) {
+            caches.open(CACHE_NAME).then(function (cache) {
+              cache.put(event.request, networkResponse.clone()); // clone the response before adding it to the cache
+            });
+            return networkResponse;
+          })
+          .catch(function () {
+            return caches.match(event.request).then(function (response) {
+              return response || caches.match("offline.html");
+            });
           });
-          return networkResponse;
-        }).catch(function () {
-          return caches.match(event.request).then(function (response) {
-            return response || caches.match("offline.html");
-          });
-        });
       })
     );
   }
 });
-
 
 // When the service worker is activated, delete any old caches that have a different name than the current cache
 self.addEventListener("activate", function (event) {
