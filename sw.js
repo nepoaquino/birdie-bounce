@@ -17,11 +17,24 @@ const urlsToCache = [
 // When the service worker is installed, open a cache and add the URLs to cache
 self.addEventListener("install", function (event) {
   event.waitUntil(
+    // Open the cache
     caches.open(CACHE_NAME).then(function (cache) {
-      return cache.addAll(urlsToCache);
+      // Loop through the URLs to cache
+      return Promise.all(
+        urlsToCache.map(function (url) {
+          // Fetch the resource and add it to the cache
+          return fetch(url).then(function (response) {
+            return cache.put(url, response);
+          }).catch(function () {
+            // If the fetch fails, log an error message
+            console.error("Failed to cache " + url);
+          });
+        })
+      );
     })
   );
 });
+
 
 // When a fetch event occurs, respond with the cached version of the resource if it exists
 // If it doesn't exist, fetch the resource from the network and add it to the cache
