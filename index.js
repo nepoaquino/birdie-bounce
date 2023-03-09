@@ -261,9 +261,8 @@ window.onload = function () {
   // Game Preview
   drawIntroduction();
 
-  // GAME CONTROLS
-  function handleControls() {
-    // Add a start button with both click and touch event listeners
+  // Add a start button with both click and touch event listeners
+  function drawStartButton() {
     const startButton = document.getElementById("startButton");
     startButton.addEventListener("click", handleStart, { passive: true });
     startButton.addEventListener("touchstart", handleStart, { passive: true });
@@ -273,7 +272,11 @@ window.onload = function () {
       startButton.remove();
       draw();
     }
+  }
+  drawStartButton();
 
+  // GAME CONTROLS
+  function handleControls() {
     document.addEventListener("keydown", function (event) {
       if (event.key === " " && gameOver) {
         gameOver = false;
@@ -303,10 +306,7 @@ window.onload = function () {
 
     // add touch event listeners to start the game and jump the bird
     document.addEventListener("touchstart", function (event) {
-      if (!isGameStarted) {
-        isGameStarted = true;
-        draw();
-      } else if (!gameOver) {
+      if (isGameStarted === true) {
         wingsFlap.play();
         wingsFlap.currentTime = 0; // reset audio to beginning
         birdVelocity = -8;
