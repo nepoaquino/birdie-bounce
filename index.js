@@ -137,6 +137,7 @@ window.onload = function () {
         canvasWidth / 2,
         canvasHeight / 2 + 80
       );
+
       return;
     }
 
@@ -256,69 +257,76 @@ window.onload = function () {
       canvasWidth / 2,
       canvasHeight / 2 - 150
     );
-    ctx.fillStyle = "black";
-    ctx.font = "24px Arial";
-    ctx.fillText("Press Spacebar or", canvasWidth / 2, canvasHeight / 2 + 50);
-    ctx.fillText(
-      "Touch the screen to start",
-      canvasWidth / 2,
-      canvasHeight / 2 + 80
-    );
   }
   // Game Preview
   drawIntroduction();
 
   // GAME CONTROLS
-  document.addEventListener("keydown", function (event) {
-    if (event.key === " " && !isGameStarted) {
-      isGameStarted = true;
-      draw();
-    } else if (event.key === " " && gameOver) {
-      isGameStarted = true;
-      gameOver = false;
-      score = 0;
-      birdY = 200;
-      birdVelocity = 0;
-      pipeX = 400;
-      pipeY = getRandomPipeY();
-      draw();
-    } else if (event.key === " " && !spacebarPressed) {
-      spacebarPressed = true;
-      wingsFlap.play();
-      wingsFlap.currentTime = 0; // reset audio to beginning
-      birdVelocity = -8;
-    }
-  });
+  function handleControls() {
+    // Add a start button with both click and touch event listeners
+    const startButton = document.getElementById("startButton");
+    startButton.addEventListener("click", handleStart, { passive: true });
+    startButton.addEventListener("touchstart", handleStart, { passive: true });
 
-  document.addEventListener("keyup", function (event) {
-    if (event.key === " ") {
-      spacebarPressed = false;
-    }
-  });
-
-  // add touch event listeners to start the game and jump the bird
-  document.addEventListener("touchstart", function (event) {
-    if (!isGameStarted) {
+    function handleStart() {
       isGameStarted = true;
-      draw();
-    } else if (!gameOver) {
-      wingsFlap.play();
-      wingsFlap.currentTime = 0; // reset audio to beginning
-      birdVelocity = -8;
-    }
-  });
-
-  // add touch event listener to reset the game
-  document.addEventListener("touchend", function (event) {
-    if (gameOver) {
-      isGameStarted = true;
-      gameOver = false;
-      score = 0;
-      birdY = 200;
-      birdVelocity = 0;
-      pipeX = 400;
-      pipeY = getRandomPipeY();
+      startButton.remove();
       draw();
     }
-  });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === " " && gameOver) {
+        gameOver = false;
+        score = 0;
+        birdY = 200;
+        birdVelocity = 0;
+        pipeX = 400;
+        pipeY = getRandomPipeY();
+        draw();
+      } else if (
+        event.key === " " &&
+        !spacebarPressed &&
+        isGameStarted === true
+      ) {
+        spacebarPressed = true;
+        wingsFlap.play();
+        wingsFlap.currentTime = 0; // reset audio to beginning
+        birdVelocity = -8;
+      }
+    });
+
+    document.addEventListener("keyup", function (event) {
+      if (event.key === " ") {
+        spacebarPressed = false;
+      }
+    });
+
+    // add touch event listeners to start the game and jump the bird
+    document.addEventListener("touchstart", function (event) {
+      if (!isGameStarted) {
+        isGameStarted = true;
+        draw();
+      } else if (!gameOver) {
+        wingsFlap.play();
+        wingsFlap.currentTime = 0; // reset audio to beginning
+        birdVelocity = -8;
+      }
+    });
+
+    // add touch event listener to reset the game
+    document.addEventListener("touchend", function (event) {
+      if (gameOver) {
+        isGameStarted = true;
+        gameOver = false;
+        score = 0;
+        birdY = 200;
+        birdVelocity = 0;
+        pipeX = 400;
+        pipeY = getRandomPipeY();
+        draw();
+      }
+    });
+  }
+  // Initialize the game controls
+  handleControls();
 };
