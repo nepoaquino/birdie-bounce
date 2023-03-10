@@ -53,6 +53,8 @@ window.onload = function () {
 
   // Define game variables and functions
   const gravity = 0.4;
+  const accelaration = 0.04;
+  const speed = 3.5;
   let score = 0;
   let gameOver = false;
   let isGameStarted = false;
@@ -122,7 +124,7 @@ window.onload = function () {
     drawScore();
 
     // Update pipe position
-    pipeX -= 3.5 + score * 0.05;
+    pipeX -= speed + score * accelaration;
     // Check if a pipe has moved off the screen and reset it with a new gap and score
     if (pipeX + pipeWidth < 0) {
       pipeX = canvasWidth;
@@ -212,7 +214,7 @@ window.onload = function () {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // calculate cloud speed
-    let cloudspeed = 3.5 + score * 0.05;
+    let cloudspeed = speed + score * accelaration;
 
     // draw clouds
     for (let i = 0; i < cloudsArr.length; i++) {
