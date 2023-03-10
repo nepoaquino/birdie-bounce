@@ -12,6 +12,9 @@ window.onload = function () {
   const bird = new Image();
   bird.src = "sprite/bird.png";
 
+  const birdfly = new Image();
+  birdfly.src = "sprite/birdfly.png";
+
   let birdX = 50;
   let birdY = 200;
   const birdWidth = 50;
@@ -102,7 +105,7 @@ window.onload = function () {
       bird.src = "sprite/bird.png";
       birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.06); // Going Down
     } else if (birdVelocity < 0) {
-      bird.src = "sprite/birdfly.png";
+      bird.src = birdfly.src;
       birdAngle = Math.max(-Math.PI, birdVelocity * 0.06); // Going Up
     }
   }
