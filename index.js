@@ -144,7 +144,7 @@ window.onload = function () {
     }
 
     // Check if bird has hit the bottom of the screen
-    if (birdY - 800 > canvasHeight || birdY < -800) {
+    if (birdY - 500 > canvasHeight || birdY < -500) {
       fall.play();
       gameOver = true;
     }
