@@ -2,19 +2,20 @@ window.onload = function () {
   // Define the canvas and its context
   let canvas = document.getElementById("canvas");
   let ctx = canvas.getContext("2d");
-  let restartButton = document.getElementById("restartButton");
 
   // Cache canvas dimensions
   const canvasWidth = canvas.width;
   const canvasHeight = canvas.height;
 
+  // Game Buttons
+  const startButton = document.getElementById("startButton");
+  const restartButton = document.getElementById("restartButton");
+
   // Define the bird and its properties
   const bird = new Image();
   bird.src = "sprite/bird.png";
-
   const birdfly = new Image();
   birdfly.src = "sprite/birdfly.png";
-
   let birdX = 50;
   let birdY = 200;
   const birdWidth = 50;
@@ -89,29 +90,6 @@ window.onload = function () {
     }
   }
 
-  // Draw bird
-  function drawBird() {
-    // Update bird position
-    ctx.save();
-    ctx.translate(birdX + birdWidth / 2, birdY + birdHeight / 2);
-    ctx.rotate(birdAngle);
-    ctx.fillStyle = "yellow";
-    ctx.drawImage(bird, -birdWidth / 2, -birdHeight / 2, birdWidth, birdHeight);
-    ctx.restore();
-
-    birdVelocity += gravity;
-    birdY += birdVelocity;
-
-    // Rotate bird based on velocity
-    if (birdVelocity > 0) {
-      bird.src = "sprite/bird.png";
-      birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.06); // Going Down
-    } else if (birdVelocity < 0) {
-      bird.src = birdfly.src;
-      birdAngle = Math.max(-Math.PI, birdVelocity * 0.06); // Going Up
-    }
-  }
-
   function draw() {
     // Clear the canvas
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -120,6 +98,7 @@ window.onload = function () {
     ctx.imageSmoothingQuality = "medium"; // set image smoothing quality to medium
     drawBackground();
     drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight);
+
     drawBird();
     drawScore();
 
@@ -169,6 +148,30 @@ window.onload = function () {
     requestAnimationFrame(draw);
   }
 
+  // Draw bird
+  function drawBird() {
+    // Update bird position
+    ctx.save();
+    ctx.translate(birdX + birdWidth / 2, birdY + birdHeight / 2);
+    ctx.rotate(birdAngle);
+    ctx.fillStyle = "yellow";
+    ctx.drawImage(bird, -birdWidth / 2, -birdHeight / 2, birdWidth, birdHeight);
+    ctx.restore();
+
+    birdVelocity += gravity;
+    birdY += birdVelocity;
+
+    // Rotate bird based on velocity
+    if (birdVelocity > 0) {
+      bird.src = "sprite/bird.png";
+      birdAngle = Math.min(Math.PI / 4, birdVelocity * 0.06); // Going Down
+    } else if (birdVelocity < 0) {
+      bird.src = birdfly.src;
+      birdAngle = Math.max(-Math.PI, birdVelocity * 0.06); // Going Up
+    }
+  }
+
+  // Draw Pipes
   function drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight) {
     const pipeGradient = ctx.createLinearGradient(
       pipeX,
@@ -287,7 +290,6 @@ window.onload = function () {
 
   // Add a start button with both click and touch event listeners
   function drawStartButton() {
-    const startButton = document.getElementById("startButton");
     startButton.addEventListener("click", handleStart, { passive: true });
 
     function handleStart() {
