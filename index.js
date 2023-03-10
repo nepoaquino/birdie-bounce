@@ -20,7 +20,7 @@ window.onload = function () {
   let birdAngle = 0;
 
   // Define the pipes and their properties
-  let pipeX = canvasWidth + 300;
+  let pipeX = canvasWidth + 200;
   function getRandomPipeY() {
     return Math.round(Math.random() * 200 + 100);
   }
@@ -298,7 +298,7 @@ window.onload = function () {
     birdY = 200;
     birdVelocity = 0;
     score = 0;
-    pipeX = 400;
+    pipeX = canvasWidth + 200;
     pipeY = getRandomPipeY();
     gap = getRandomGap();
     gameOver = false;
