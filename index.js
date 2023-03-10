@@ -58,11 +58,11 @@ window.onload = function () {
   let isGameStarted = false;
   let controlling = false;
 
-  wingsFlap = new Audio("soundeffects/wingsFlap.wav");
+  const wingsFlap = new Audio("soundeffects/wingsFlap.wav");
   wingsFlap.volume = 0.7;
-  bump = new Audio("soundeffects/bump.wav");
+  const bump = new Audio("soundeffects/bump.wav");
   bump.volume = 1;
-  fall = new Audio("soundeffects/fall.wav");
+  const fall = new Audio("soundeffects/fall.wav");
   fall.volume = 0.4;
 
   // Play wings flap sound effect only if the game is ongoing
