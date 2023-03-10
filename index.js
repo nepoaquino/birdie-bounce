@@ -2,6 +2,7 @@ window.onload = function () {
   // Define the canvas and its context
   let canvas = document.getElementById("canvas");
   let ctx = canvas.getContext("2d");
+  let restartButton = document.getElementById("restartButton");
 
   // Cache canvas dimensions
   const canvasWidth = canvas.width;
@@ -52,15 +53,36 @@ window.onload = function () {
   let score = 0;
   let gameOver = false;
   let isGameStarted = false;
-  let spacebarPressed = false;
+  let controlling = false;
 
-  //Sound effects
-  const wingsFlap = new Audio("soundeffects/wingsFlap.wav");
+  wingsFlap = new Audio("soundeffects/wingsFlap.wav");
   wingsFlap.volume = 0.7;
-  const bump = new Audio("soundeffects/bump.wav");
+  bump = new Audio("soundeffects/bump.wav");
   bump.volume = 1;
-  const fall = new Audio("soundeffects/fall.wav");
+  fall = new Audio("soundeffects/fall.wav");
   fall.volume = 0.4;
+
+  // Play wings flap sound effect only if the game is ongoing
+  function playWingsFlap() {
+    if (!gameOver) {
+      wingsFlap.play();
+      wingsFlap.currentTime = 0;
+    }
+  }
+
+  // Play bump sound effect only if the game is ongoing
+  function playBump() {
+    if (!gameOver) {
+      bump.play();
+    }
+  }
+
+  // Play fall sound effect only if the game is ongoing
+  function playFall() {
+    if (!gameOver) {
+      fall.play();
+    }
+  }
 
   // Draw bird
   function drawBird() {
@@ -124,19 +146,16 @@ window.onload = function () {
 
     // Check for game over
     if (gameOver) {
+      isGameStarted == false;
+
       ctx.textAlign = "center";
       ctx.fillStyle = "red";
       ctx.font = "bold 50px Arial";
       ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2 - 100);
-      ctx.fillStyle = "black";
-      ctx.font = "24px Verdana, sans-serif";
-      ctx.fillText(`Your Score: ${score}`, canvasWidth / 2, canvasHeight / 2);
-      ctx.fillText("Press Spacebar or", canvasWidth / 2, canvasHeight / 2 + 50);
-      ctx.fillText(
-        "Touch the screen to restart",
-        canvasWidth / 2,
-        canvasHeight / 2 + 80
-      );
+      // Display the restart button after 1 second
+      setTimeout(function () {
+        restartButton.style.display = "block";
+      }, 1000);
 
       return;
     }
@@ -265,7 +284,6 @@ window.onload = function () {
   function drawStartButton() {
     const startButton = document.getElementById("startButton");
     startButton.addEventListener("click", handleStart, { passive: true });
-    startButton.addEventListener("touchstart", handleStart, { passive: true });
 
     function handleStart() {
       isGameStarted = true;
@@ -275,59 +293,52 @@ window.onload = function () {
   }
   drawStartButton();
 
-  // GAME CONTROLS
-  function handleControls() {
+  restartButton.addEventListener("click", function () {
+    // reset game variables to initial values
+    birdY = 200;
+    birdVelocity = 0;
+    score = 0;
+    pipeX = 400;
+    pipeY = getRandomPipeY();
+    gap = getRandomGap();
+    gameOver = false;
+    draw();
+
+    // hide restart button again
+    restartButton.style.display = "none";
+  });
+
+  // Check if user is on a mobile device
+  const isMobileDevice =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+
+  if (!isMobileDevice) {
+    // disable keydown and keyup listeners for mobile devices
+    // Add keydown event listener
     document.addEventListener("keydown", function (event) {
-      if (event.key === " " && gameOver) {
-        gameOver = false;
-        score = 0;
-        birdY = 200;
-        birdVelocity = 0;
-        pipeX = 400;
-        pipeY = getRandomPipeY();
-        draw();
-      } else if (
-        event.key === " " &&
-        !spacebarPressed &&
-        isGameStarted === true
-      ) {
-        spacebarPressed = true;
-        wingsFlap.play();
-        wingsFlap.currentTime = 0; // reset audio to beginning
+      if (event.key === " " && !controlling && isGameStarted === true) {
+        playWingsFlap();
+        controlling = true;
         birdVelocity = -8;
       }
     });
 
+    // Add keyup event listener
     document.addEventListener("keyup", function (event) {
       if (event.key === " ") {
-        spacebarPressed = false;
-      }
-    });
-
-    // add touch event listeners to start the game and jump the bird
-    document.addEventListener("touchstart", function (event) {
-      if (isGameStarted === true) {
-        wingsFlap.play();
-        wingsFlap.currentTime = 0; // reset audio to beginning
-        birdVelocity = -8;
-      }
-    });
-
-    // add touch event listener to reset the game
-    document.addEventListener("touchend", function (event) {
-      if (gameOver) {
-        isGameStarted = true;
-        gameOver = false;
-        score = 0;
-        birdY = 200;
-        birdVelocity = 0;
-        pipeX = 400;
-        pipeY = getRandomPipeY();
-        draw();
+        controlling = false;
       }
     });
   }
-  // Initialize the game controls
-  handleControls();
+
+  // Add touchstart event listener to start the game and jump the bird
+  document.addEventListener("touchstart", function (event) {
+    if (isGameStarted === true) {
+      playWingsFlap();
+      controlling = true;
+      birdVelocity = -8;
+    }
+  });
 };
- 
