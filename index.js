@@ -112,7 +112,7 @@ window.onload = function () {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     // Set image smoothing properties
     ctx.imageSmoothingEnabled = true; // enable image smoothing
-    ctx.imageSmoothingQuality = "high"; // set image smoothing quality to high
+    ctx.imageSmoothingQuality = "medium"; // set image smoothing quality to medium
     drawBackground();
     drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight);
     drawBird();
