@@ -1,92 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-    />
-    <meta name="author" content="Nepo Aquino" />
-    <meta
-      property="og:url"
-      content="https://neppy3250.github.io/birdie-bounce/"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Birdie Bounce" />
-    <meta
-      property="og:description"
-      content="Birdie Bounce is based on the popular game Flappy Bird. In this game, the player controls a bird that needs to navigate through a series of obstacles by flapping its wings. The objective is to get the bird as far as possible without hitting any obstacles."
-    />
-    <meta
-      property="og:image"
-      content="https://lh3.googleusercontent.com/pw/AMWts8AzC4eTzvtC7SLRIVVIb2pUamcNCsDK166G5ZU-o8tzo4AOvh2eRv-ewNsd5JVSsFUi7YKBTEWlIEPcy1cAvZi1jDdxcMpTJXtqTTO_Mv2ioOrdP73H_Tc4VtaiFN1kJ260oEHGyuvh8nBpxSkElAlp=w1200-h627-no?authuser=0"
-    />
-    <meta property="og:image:type" content="image/png" />
 
-    <title>Bounce</title>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <meta name="author" content="Nepo Aquino" />
+  <meta property="og:url" content="https://neppy3250.github.io/birdie-bounce/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Birdie Bounce" />
+  <meta property="og:description"
+    content="Birdie Bounce is based on the popular game Flappy Bird. In this game, the player controls a bird that needs to navigate through a series of obstacles by flapping its wings. The objective is to get the bird as far as possible without hitting any obstacles." />
+  <meta property="og:image"
+    content="https://lh3.googleusercontent.com/pw/AMWts8AzC4eTzvtC7SLRIVVIb2pUamcNCsDK166G5ZU-o8tzo4AOvh2eRv-ewNsd5JVSsFUi7YKBTEWlIEPcy1cAvZi1jDdxcMpTJXtqTTO_Mv2ioOrdP73H_Tc4VtaiFN1kJ260oEHGyuvh8nBpxSkElAlp=w1200-h627-no?authuser=0" />
+  <meta property="og:image:type" content="image/png" />
 
-    <link rel="icon" href="" type="" />
+  <title>Bounce</title>
 
-    <style>
-      *,
-      *:before,
-      *:after {
-        box-sizing: border-box;
-      }
+  <link rel="icon" href="" type="" />
 
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        touch-action: manipulation;
-      }
+  <style>
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
 
-      #canvas-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: radial-gradient(circle, #111, #222);
-      }
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      touch-action: manipulation;
+    }
 
-      #canvas {
-        height: 99.5%;
-        width: auto;
-        max-width: 99.5%;
-        border: 1px solid black;
-        padding: 0;
-        margin: 0;
-      }
+    #canvas-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle, #111, #222);
+    }
 
-      #startButton {
-        position: absolute;
-        top: 60%;
-        font-weight: 600;
-        font-size: 6vh;
-        height: 9vh;
-        min-width: 40vh;
-        white-space: nowrap;
-        border-radius: 30vh;
-        border: none;
-        background-image: linear-gradient(
-          to bottom right,
-          #00b300,
-          #3e8e41,
-          #3e8e41
-        );
-        color: white;
-        text-shadow: 1px 1px 1px #888;
-      }
+    #canvas {
+      height: 99.5%;
+      width: auto;
+      max-width: 99.5%;
+      border: 1px solid black;
+      padding: 0;
+      margin: 0;
+    }
 
-      #startButton:hover {
-        background-color: yellow;
-        box-shadow: 0px 0px 5px #888;
-        cursor: pointer;
-      }
-    </style>
+    #restartButton {
+      display: none;
+    }
 
-    <!--
+    #startButton,
+    #restartButton {
+      position: absolute;
+      top: 55%;
+      font-weight: 600;
+      font-size: 4vh;
+      height: 6vh;
+      min-width: 30vh;
+      white-space: nowrap;
+      border-radius: 1vh;
+      border: none;
+      background: linear-gradient(to bottom, #33cccc, #00bf00);
+
+      color: #fff;
+      text-shadow: 1px 1px 1px #888;
+    }
+
+    #startButton:hover,
+    #restartButton:hover {
+      background: linear-gradient(to bottom, #00bf00, #33cccc);
+      box-shadow: 0px 0px 5px #888;
+      cursor: pointer;
+    }
+
+    #startButton:active,
+    #restartButton:active {
+      transform: scale(1.05);
+      /* or any other effect you want */
+    }
+  </style>
+
+  <!--
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
@@ -105,44 +104,46 @@
     }
   </script>
  -->
-  </head>
+</head>
 
-  <body>
-    <audio id="wingsFlap" src="soundeffects/wingsFlap.wav"></audio>
-    <audio id="bump" src="soundeffects/bump.wav"></audio>
-    <audio id="fall" src="soundeffects/fall.wav"></audio>
+<body>
+  <audio id="wingsFlap" src="soundeffects/wingsFlap.wav"></audio>
+  <audio id="bump" src="soundeffects/bump.wav"></audio>
+  <audio id="fall" src="soundeffects/fall.wav"></audio>
 
-    <div id="canvas-container">
-      <button id="startButton">Start Game</button>
-      <canvas id="canvas" width="400" height="600"></canvas>
-    </div>
+  <div id="canvas-container">
+    <button id="restartButton">Restart</button>
+    <button id="startButton">Start Game</button>
+    <canvas id="canvas" width="400" height="600"></canvas>
+  </div>
 
-    <script src="index.js"></script>
+  <script src="index.js"></script>
 
-    <script>
-      // Initialize variables
-      canvas = document.getElementById("canvas");
-      ctx = canvas.getContext("2d");
-      let lastTimestamp = 0;
+  <script>
+    // Initialize variables
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    let lastTimestamp = 0;
 
-      // Define the game loop function
-      function gameLoop(timestamp) {
-        // Compute the time elapsed since the last frame
-        var elapsed = timestamp - lastTimestamp;
+    // Define the game loop function
+    function gameLoop(timestamp) {
+      // Compute the time elapsed since the last frame
+      var elapsed = timestamp - lastTimestamp;
 
-        // Limit the frame rate to 60 FPS
-        if (elapsed < 16.7) {
-          requestAnimationFrame(gameLoop);
-          return;
-        }
-        // Render the game objects
-        // ...
-        // Swap the buffers
-        lastTimestamp = timestamp;
+      // Limit the frame rate to 60 FPS
+      if (elapsed < 16.7) {
         requestAnimationFrame(gameLoop);
+        return;
       }
-      // Start the game loop
+      // Render the game objects
+      // ...
+      // Swap the buffers
+      lastTimestamp = timestamp;
       requestAnimationFrame(gameLoop);
-    </script>
-  </body>
+    }
+    // Start the game loop
+    requestAnimationFrame(gameLoop);
+  </script>
+</body>
+
 </html>
