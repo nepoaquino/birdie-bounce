@@ -32,7 +32,7 @@ window.onload = function () {
   let pipeWidth = 50;
   let pipeHeight = 600;
   function getRandomGap() {
-    return Math.round(Math.random() * 3) * 10 + 150;
+    return Math.round(Math.random() * 3) * 10 + = 500;
   }
   let gap = getRandomGap();
 
