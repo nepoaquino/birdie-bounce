@@ -90,62 +90,77 @@ window.onload = function () {
     }
   }
 
-  function draw() {
-    // Clear the canvas
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    // Set image smoothing properties
-    ctx.imageSmoothingEnabled = true; // enable image smoothing
-    ctx.imageSmoothingQuality = "medium"; // set image smoothing quality to medium
-    drawBackground();
-    drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight);
+  // Define the desired frame rate (60 FPS)
+  const targetFrameRate = 60;
+  const frameDelay = 1000 / targetFrameRate;
+  let lastFrameTime = 0;
 
-    drawBird();
-    drawScore();
+  // Game loop function
+  function gameLoop(timestamp) {
+    // Calculate the time elapsed since the last frame
+    const deltaTime = timestamp - lastFrameTime;
 
-    // Update pipe position
-    pipeX -= speed + score * accelaration;
-    // Check if a pipe has moved off the screen and reset it with a new gap and score
-    if (pipeX + pipeWidth < 0) {
-      pipeX = canvasWidth;
-      pipeY = Math.random() * 200 + 100;
-      gap = getRandomGap(); // Set a new gap value
-      score++;
-    }
+    // Only update and render the game if enough time has passed
+    if (deltaTime >= frameDelay) {
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      // Set image smoothing properties
+      ctx.imageSmoothingEnabled = true; // enable image smoothing
+      ctx.imageSmoothingQuality = "medium"; // set image smoothing quality to medium
+      drawBackground();
+      drawPipes(pipeX, pipeY, gap, pipeWidth, pipeHeight);
 
-    // Check for collisions
-    if (
-      birdX + birdWidth - 5 > pipeX && // Bird hits right side of pipe
-      birdX < pipeX + pipeWidth && // Bird hits left side of pipe
-      (birdY + 10 < pipeY || birdY + birdHeight - 10 > pipeY + gap) // Bird hits top or bottom of pipe
-    ) {
-      bump.play();
-      gameOver = true;
-    }
+      drawBird();
+      drawScore();
 
-    // Check if bird has hit the bottom of the screen
-    if (birdY - 500 > canvasHeight || birdY < -500) {
-      fall.play();
-      gameOver = true;
-    }
+      // Update pipe position
+      pipeX -= speed + score * accelaration;
+      // Check if a pipe has moved off the screen and reset it with a new gap and score
+      if (pipeX + pipeWidth < 0) {
+        pipeX = canvasWidth;
+        pipeY = Math.random() * 200 + 100;
+        gap = getRandomGap(); // Set a new gap value
+        score++;
+      }
 
-    // Check for game over
-    if (gameOver) {
-      isGameStarted == false;
+      // Check for collisions
+      if (
+        birdX + birdWidth - 5 > pipeX && // Bird hits right side of pipe
+        birdX < pipeX + pipeWidth && // Bird hits left side of pipe
+        (birdY + 10 < pipeY || birdY + birdHeight - 10 > pipeY + gap) // Bird hits top or bottom of pipe
+      ) {
+        bump.play();
+        gameOver = true;
+      }
 
-      ctx.textAlign = "center";
-      ctx.fillStyle = "red";
-      ctx.font = "bold 50px Arial";
-      ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2 - 100);
-      // Display the restart button after 1 second
-      setTimeout(function () {
-        restartButton.style.display = "block";
-      }, 1000);
+      // Check if bird has hit the bottom of the screen
+      if (birdY - 500 > canvasHeight || birdY < -500) {
+        fall.play();
+        gameOver = true;
+      }
 
-      return;
+      // Check for game over
+      if (gameOver) {
+        isGameStarted == false;
+
+        ctx.textAlign = "center";
+        ctx.fillStyle = "red";
+        ctx.font = "bold 50px Arial";
+        ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2 - 100);
+        // Display the restart button after 1 second
+        setTimeout(function () {
+          restartButton.style.display = "block";
+        }, 1000);
+
+        return;
+      }
+
+      // Update the last frame time
+      lastFrameTime = timestamp - (deltaTime % frameDelay);
     }
 
     // Request the next animation frame
-    requestAnimationFrame(draw);
+    requestAnimationFrame(gameLoop);
   }
 
   // Draw bird
@@ -288,17 +303,15 @@ window.onload = function () {
   // Game Preview
   drawIntroduction();
 
-  // Add a start button with both click and touch event listeners
-  function drawStartButton() {
-    startButton.addEventListener("click", handleStart, { passive: true });
-
-    function handleStart() {
-      isGameStarted = true;
-      startButton.remove();
-      draw();
-    }
+  // Start the game loop
+  function startGame() {
+    isGameStarted = true;
+    startButton.remove();
+    requestAnimationFrame(gameLoop);
   }
-  drawStartButton();
+
+  // Add a start button click event listener
+  startButton.addEventListener("click", startGame);
 
   restartButton.addEventListener("click", function () {
     // reset game variables to initial values
