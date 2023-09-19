@@ -314,19 +314,21 @@ window.onload = function () {
   startButton.addEventListener("click", startGame);
 
   restartButton.addEventListener("click", function () {
-    // reset game variables to initial values
-    birdY = 200;
-    birdVelocity = 0;
-    score = 0;
-    pipeX = canvasWidth + 200;
-    pipeY = getRandomPipeY();
-    gap = getRandomGap();
-    gameOver = false;
-    draw();
+  // reset game variables to initial values
+  birdY = 200;
+  birdVelocity = 0;
+  score = 0;
+  pipeX = canvasWidth + 200;
+  pipeY = getRandomPipeY();
+  gap = getRandomGap();
+  gameOver = false;
 
-    // hide restart button again
-    restartButton.style.display = "none";
-  });
+  // Reset the game canvas
+  drawIntroduction();
+
+  // Hide restart button again
+  restartButton.style.display = "none";
+});
 
   // Check if user is on a mobile device
   const isMobileDevice =
