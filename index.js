@@ -314,7 +314,7 @@ window.onload = function () {
   startButton.addEventListener("click", startGame);
 
   restartButton.addEventListener("click", function () {
-  // reset game variables to initial values
+  // Reset game variables to initial values
   birdY = 200;
   birdVelocity = 0;
   score = 0;
@@ -323,8 +323,8 @@ window.onload = function () {
   gap = getRandomGap();
   gameOver = false;
 
-  // Reset the game canvas
-  drawIntroduction();
+  // Start the game again
+  startGame();
 
   // Hide restart button again
   restartButton.style.display = "none";
