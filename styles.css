@@ -37,29 +37,20 @@ body {
 #startButton,
 #restartButton {
   position: absolute;
-  top: 55%;
-  font-weight: 600;
-  font-size: 4vh;
-  height: 6vh;
-  min-width: 30vh;
-  white-space: nowrap;
-  border-radius: 1vh;
-  border: none;
-  background: linear-gradient(to bottom, #33cccc, #00bf00);
-
-  color: #fff;
-  text-shadow: 1px 1px 1px #888;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3vmin;
+  background-color: #c4f8ff;
+  border-radius: 10px;
+  color: #00333a;
+  font-weight: 900;
+  font-family: cursive;
+  cursor: pointer;
+  padding: 5px 20px;
 }
-
 #startButton:hover,
 #restartButton:hover {
-  background: linear-gradient(to bottom, #00bf00, #33cccc);
-  box-shadow: 0px 0px 5px #888;
-  cursor: pointer;
-}
-
-#startButton:active,
-#restartButton:active {
-  transform: scale(1.05);
-  /* or any other effect you want */
+  background-color: #e3fcff;
+  transform: translate(-50%, -50%) scale(1.05);
 }
