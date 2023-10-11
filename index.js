@@ -363,4 +363,16 @@ window.onload = function () {
       birdVelocity = -8;
     }
   });
+
+
+  // Add a mousedown event listener to the canvas element
+  canvas.addEventListener("mousedown", function (event) {
+    if (isGameStarted === true) {
+      playWingsFlap();
+      controlling = true;
+      birdVelocity = -8;
+    }
+  });
+
+
 };
