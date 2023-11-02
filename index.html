@@ -48,33 +48,7 @@
     <div id="canvas-container">
       <button id="restartButton">Restart</button>
       <button id="startButton">Start Game</button>
-      <canvas id="canvas" width="400" height="600"></canvas>
+      <canvas id="canvas" width="600" height="600"></canvas>
     </div>
-
-    <script>
-      // Initialize variables
-      canvas = document.getElementById("canvas");
-      ctx = canvas.getContext("2d");
-      let lastTimestamp = 0;
-
-      // Define the game loop function
-      function gameLoop(timestamp) {
-        // Compute the time elapsed since the last frame
-        var elapsed = timestamp - lastTimestamp;
-
-        // Limit the frame rate to 60 FPS
-        if (elapsed < 16.7) {
-          requestAnimationFrame(gameLoop);
-          return;
-        }
-        // Render the game objects
-        // ...
-        // Swap the buffers
-        lastTimestamp = timestamp;
-        requestAnimationFrame(gameLoop);
-      }
-      // Start the game loop
-      requestAnimationFrame(gameLoop);
-    </script>
   </body>
 </html>

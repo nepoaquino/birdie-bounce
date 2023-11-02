@@ -24,9 +24,9 @@ body {
 }
 
 #canvas {
-  width: auto;
-  height: 99%;
   max-width: 99%;
+  height: 99%;
+
   border: 1px solid black;
 }
 
