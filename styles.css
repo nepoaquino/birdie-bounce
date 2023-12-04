@@ -43,12 +43,10 @@ body {
   font-size: 3vmin;
   border-radius: 10px;
   background-color: #e3fcff;
-  color: #00333a;
   font-weight: 900;
   cursor: pointer;
   padding: 5px 20px;
   text-transform: uppercase;
-  box-shadow: 1px 1px 5px black;
   border: none;
 }
 #startButton:hover,
