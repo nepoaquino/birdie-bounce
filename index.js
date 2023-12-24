@@ -20,8 +20,8 @@ window.onload = function () {
 
   let birdX = 50;
   let birdY = 200;
-  const birdWidth = 50;
-  const birdHeight = 50;
+  const birdWidth = 60;
+  const birdHeight = 60;
   let birdVelocity = 0;
   let birdAngle = 0;
 
@@ -33,7 +33,7 @@ window.onload = function () {
   let pipeY = getRandomPipeY();
   let pipeWidth = 50;
   let pipeHeight = 600;
-  function getRandomGap() {
+  function getRandomGap() { //Pipe Gap
     return Math.round(Math.random() * 3) * 10 + 150;
   }
   let gap = getRandomGap();
@@ -56,7 +56,7 @@ window.onload = function () {
 
   // Define game variables and functions
   const gravity = 0.4;
-  const accelaration = 0.04;
+  const accelaration = 0.1;
   const speed = 3.5;
   let score = 0;
   let gameOver = false;
@@ -140,7 +140,7 @@ window.onload = function () {
 
       // Check for game over
       if (gameOver) {
-        isGameStarted == false;
+        isGameStarted = false;
 
         ctx.textAlign = "center";
         ctx.fillStyle = "red";
