@@ -274,6 +274,10 @@ window.onload = function () {
     ctx.strokeText(`Score: ${score}`, 10, 30);
   }
 
+
+
+
+
   function drawIntroduction() {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -287,15 +291,28 @@ window.onload = function () {
     ctx.fillStyle = skyGradient;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // draw introduction text
-    ctx.fillStyle = "green";
+    // GAME TITLE TEXT
+	const titleGradient = ctx.createLinearGradient(0, 0, canvasWidth, 0);
+    titleGradient.addColorStop(0, "#009c00");
+    titleGradient.addColorStop(0.4, "#00bf00");
+	titleGradient.addColorStop(0.6, "#00e600"); 
+    titleGradient.addColorStop(1, "#00bf00"); 
+	
+    ctx.fillStyle = titleGradient;
     ctx.textAlign = "center";
-    ctx.font = " bold 50px Avenir";
+    ctx.font = " bold 50px Arial";
+	
     ctx.fillText("Birdie Bounce", canvasWidth / 2, canvasHeight / 2 - 180);
+	  ctx.strokeStyle = "wheat";
+    ctx.lineWidth = 3;
+    ctx.strokeText("Birdie Bounce", canvasWidth / 2, canvasHeight / 2 - 180);
+	
+	// Created By Text
     ctx.font = "18px Avenir";
-    ctx.fillStyle = "gray";
+    ctx.fillStyle = "#333";
     ctx.fillText(
-      "created by: Nepo Aquino",
+	
+      "Created by: Nepo Aquino",
       canvasWidth / 2,
       canvasHeight / 2 - 150
     );
