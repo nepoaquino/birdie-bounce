@@ -41,13 +41,13 @@ body {
   top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.6em;
+  font-size: 2em;
   font-weight: 900;
   cursor: pointer;
-  
   border: none;
   background-color:transparent;
   color:#222;
+  white-space: nowrap;
 }
 #startButton:hover,
 #restartButton:hover,
