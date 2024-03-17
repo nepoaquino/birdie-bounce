@@ -36,23 +36,23 @@ body {
 
 #startButton,
 #restartButton {
+  font-family: 'Courier';
   position: absolute;
-  top: 60%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 3vmin;
-  border-radius: 10px;
-  background-color: #e3fcff;
+  font-size: 5vmin;
   font-weight: 900;
   cursor: pointer;
-  padding: 5px 20px;
-  text-transform: uppercase;
+  
   border: none;
+  background-color:transparent;
+  color:#222;
 }
 #startButton:hover,
 #restartButton:hover,
 #startButton:active,
 #restartButton:active {
-  background-color: #f0f0f0;
+  
   transform: translate(-50%, -50%) scale(1.1);
 }
