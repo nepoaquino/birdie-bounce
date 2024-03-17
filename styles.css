@@ -41,7 +41,7 @@ body {
   top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 5vmin;
+  font-size: 1.6em;
   font-weight: 900;
   cursor: pointer;
   
@@ -56,3 +56,32 @@ body {
   
   transform: translate(-50%, -50%) scale(1.1);
 }
+
+/* @media (min-width:320px)  {  */
+/* /* smartphones, iPhone, portrait 480x320 phones */  */
+/* } */
+
+/* @media (min-width:481px)  {  */
+/* /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */  */
+
+/* } */
+
+/* @media (min-width:641px)  {  */
+/* /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */  */
+
+/* } */
+
+/* @media (min-width:961px)  {  */
+/* /* tablet, landscape iPad, lo-res laptops ands desktops */  */
+
+/* } */
+
+/* @media (min-width:1025px) {  */
+/* /* big landscape tablets, laptops, and desktops */  */
+
+/* } */
+
+/* @media (min-width:1281px) {  */
+/* /* hi-res laptops and desktops */  */
+
+/* } */
