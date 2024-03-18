@@ -17,38 +17,18 @@
     <link rel="stylesheet" href="styles.css" />
     <!-- <link rel="icon" href="icon/bird.png" type="image/x-icon" /> -->
     <title>Birdie Bounce</title>
-
-    <!--
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("sw.js").then(
-          function (registration) {
-            console.log(
-              "ServiceWorker registration successful with scope: ",
-              registration.scope
-            );
-          },
-          function (err) {
-            console.log("ServiceWorker registration failed: ", err);
-          }
-        );
-      });
-    }
-  </script>
- -->
   </head>
 
   <body>
-	<audio id="wingsFlap" src="soundeffects/wingsFlap.wav"></audio>
+    <audio id="wingsFlap" src="soundeffects/wingsFlap.wav"></audio>
     <audio id="bump" src="soundeffects/bump.wav"></audio>
     <audio id="fall" src="soundeffects/fall.wav"></audio>
 
     <div id="canvas-container">
-		<button id="startButton">Click to play</button>
-		<button id="restartButton">Restart</button>
-      
-		<canvas id="canvas" width="500" height="500"></canvas>
+      <button id="startButton">Click to play</button>
+      <button id="restartButton">Restart</button>
+
+      <canvas id="canvas" width="500" height="500"></canvas>
     </div>
 
     <script src="index.js"></script>

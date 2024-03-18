@@ -33,7 +33,8 @@ window.onload = function () {
   let pipeY = getRandomPipeY();
   let pipeWidth = 50;
   let pipeHeight = 600;
-  function getRandomGap() { //Pipe Gap
+  function getRandomGap() {
+    //Pipe Gap
     return Math.round(Math.random() * 3) * 10 + 150;
   }
   let gap = getRandomGap();
@@ -56,7 +57,7 @@ window.onload = function () {
 
   // Define game variables and functions
   const gravity = 0.4;
-  const accelaration = 0.1;
+  const acceleration = 0.1;
   const speed = 3.5;
   let score = 0;
   let gameOver = false;
@@ -113,7 +114,7 @@ window.onload = function () {
       drawScore();
 
       // Update pipe position
-      pipeX -= speed + score * accelaration;
+      pipeX -= speed + score * acceleration;
       // Check if a pipe has moved off the screen and reset it with a new gap and score
       if (pipeX + pipeWidth < 0) {
         pipeX = canvasWidth;
@@ -231,7 +232,7 @@ window.onload = function () {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // calculate cloud speed
-    let cloudspeed = speed + score * accelaration;
+    let cloudSpeed = speed + score * acceleration;
 
     // draw clouds
     for (let i = 0; i < cloudsArr.length; i++) {
@@ -239,7 +240,7 @@ window.onload = function () {
       ctx.drawImage(clouds, cloud.x, cloud.y, cloud.width, 80); // use the width property of the cloud
 
       // calculate cloud velocity based on pipe speed
-      const cloudVelX = -(cloudspeed / 2);
+      const cloudVelX = -(cloudSpeed / 2);
       cloud.x += cloudVelX;
 
       if (cloud.x + cloud.width < 0) {
@@ -274,10 +275,6 @@ window.onload = function () {
     ctx.strokeText(`Score: ${score}`, 10, 30);
   }
 
-
-
-
-
   function drawIntroduction() {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -292,26 +289,25 @@ window.onload = function () {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // GAME TITLE TEXT
-	const titleGradient = ctx.createLinearGradient(0, 0, canvasWidth, 0);
+    const titleGradient = ctx.createLinearGradient(0, 0, canvasWidth, 0);
     titleGradient.addColorStop(0, "#009c00");
     titleGradient.addColorStop(0.4, "#00bf00");
-	titleGradient.addColorStop(0.6, "#00e600"); 
-    titleGradient.addColorStop(1, "#00bf00"); 
-	
+    titleGradient.addColorStop(0.6, "#00e600");
+    titleGradient.addColorStop(1, "#00bf00");
+
     ctx.fillStyle = titleGradient;
     ctx.textAlign = "center";
     ctx.font = " bold 50px Arial";
-	
+
     ctx.fillText("Birdie Bounce", canvasWidth / 2, canvasHeight / 2 - 180);
-	  ctx.strokeStyle = "wheat";
+    ctx.strokeStyle = "wheat";
     ctx.lineWidth = 3;
     ctx.strokeText("Birdie Bounce", canvasWidth / 2, canvasHeight / 2 - 180);
-	
-	// Created By Text
-    ctx.font = "18px Avenir";
+
+    // Created By Text
+    ctx.font = "18px Arial";
     ctx.fillStyle = "#333";
     ctx.fillText(
-	
       "Created by: Nepo Aquino",
       canvasWidth / 2,
       canvasHeight / 2 - 150
